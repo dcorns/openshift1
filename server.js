@@ -1,13 +1,13 @@
 var cc          = require('config-multipaas'),
     restify     = require('restify'),
-    fs          = require('fs')
+    fs          = require('fs');
 
 var config      = cc(),
-    app         = restify.createServer()
+    app         = restify.createServer();
 
-app.use(restify.queryParser())
-app.use(restify.CORS())
-app.use(restify.fullResponse())
+app.use(restify.queryParser());
+app.use(restify.CORS());
+app.use(restify.fullResponse());
 
 // Routes
 app.get('/status', function (req, res, next)
@@ -26,5 +26,5 @@ app.get('/', function (req, res, next)
 app.get(/\/(css|js|img|icon|small-slides)\/?.*/, restify.serveStatic({directory: './static/'}));
 
 app.listen(config.get('PORT'), config.get('IP'), function () {
-  console.log( "Listening on " + config.get('IP') + ", port " + config.get('PORT') )
+  console.log( "Listening on " + config.get('IP') + ", port " + config.get('PORT') );
 });

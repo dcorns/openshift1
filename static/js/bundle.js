@@ -314,8 +314,6 @@
 	var slides = __webpack_require__(5);
 	var pageScripts = __webpack_require__(6);
 	var pages = __webpack_require__(9);
-	var data = __webpack_require__(8);
-	var ajax = __webpack_require__(1);
 	slideShow.loadImages(slides);
 	slideShow.swap();
 	slideShow.play(500);
@@ -380,16 +378,8 @@
 	  btnMobileMenu.classList.toggle('toggle-menu');
 	  loadContent(e.target.id, mainContent);
 	});
-	var jData = JSON.stringify(data);
-	console.log(jData);
-	ajax.ajaxPostJson('https://api-eu.clusterpoint.com/103559/dalecorns.json',data , function(err, res){
-	  if(err) console.dir(err);
-	  console.log(res);
-	}, 'Basic ' + btoa('dalecorns:ISWLJW$32'));
-	ajax.ajaxGetJson('https://api-eu.clusterpoint.com/103559/dalecorns.json', function(err, res){
-	  if(err) console.dir(err);
-	  console.log(res);
-	}, 'Basic ' + btoa('dalecorns:ISWLJW$32'));
+
+
 
 /***/ },
 /* 4 */

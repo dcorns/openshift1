@@ -9,8 +9,6 @@ var slideShow = require('./slideShow');
 var slides = require('./models/slides');
 var pageScripts = require('./pageScripts');
 var pages = require('./build/views');
-var data = require('./models/exampleData');
-var ajax = require('./doAjax');
 slideShow.loadImages(slides);
 slideShow.swap();
 slideShow.play(500);
@@ -75,13 +73,4 @@ mobileMenu.addEventListener('click', function(e){
   btnMobileMenu.classList.toggle('toggle-menu');
   loadContent(e.target.id, mainContent);
 });
-var jData = JSON.stringify(data);
-console.log(jData);
-ajax.ajaxPostJson('https://api-eu.clusterpoint.com/103559/dalecorns.json',data , function(err, res){
-  if(err) console.dir(err);
-  console.log(res);
-}, 'Basic ' + btoa('dalecorns:ISWLJW$32'));
-ajax.ajaxGetJson('https://api-eu.clusterpoint.com/103559/dalecorns.json', function(err, res){
-  if(err) console.dir(err);
-  console.log(res);
-}, 'Basic ' + btoa('dalecorns:ISWLJW$32'));
+

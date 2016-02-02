@@ -11,21 +11,20 @@
   "author": {
     "name": "OpenShift",
     "email": "ryanj@redhat.com",
-    "url":  "http://openshift.redhat.com/"
+    "url": "http://openshift.redhat.com/"
   },
   "homepage": "http://openshift.redhat.com/",
   "repository": {
     "type": "git",
     "url": "https://gitub.com/openshift/nodejs-custom-version-openshift.git"
   },
-
   "engines": {
     "node": ">= 5.4.1",
     "npm": ">= 1.2.0"
   },
-
   "dependencies": {
     "config-multipaas": "^0.1.0",
+    "mongodb": "^2.1.4",
     "restify": "^2.8.3"
   },
   "devDependencies": {
@@ -40,7 +39,6 @@
     "postcss-cssnext": "^2.3.0"
   },
   "bundleDependencies": [],
-
   "private": true,
   "scripts": {
     "start": "node server.js"

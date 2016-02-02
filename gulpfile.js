@@ -14,7 +14,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var webpack = require('gulp-webpack');
 
 gulp.task('webpack', function(){
-  return gulp.src('app/js/**/*.js')
+  return gulp.src('app/js/index.js')
     .pipe(webpack({
       output:{
         filename: 'bundle.js'

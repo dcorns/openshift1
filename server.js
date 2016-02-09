@@ -6,7 +6,7 @@ var cc          = require('config-multipaas'),
 var config      = cc(),
     app         = restify.createServer();
 
-corngoose.startDB('//localhost/drc');
+corngoose.startDB('drc');
 
 app.use(restify.queryParser());
 app.use(restify.CORS());

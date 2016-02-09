@@ -24,18 +24,18 @@ module.exports = (function () {
         });
     },
     //Change connection string based remote or local server deployment, remote services use environment variables
-    setDbPath: function(dbPath){
+    setDbPath: function(dbName){
       // if OPENSHIFT env variables are present, use the available connection info:
       if(procE.OPENSHIFT_MONGODB_DB_PASSWORD){
         mongoUri = 'mongodb://' + procE.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
           procE.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
           procE.OPENSHIFT_MONGODB_DB_HOST + ':' +
           procE.OPENSHIFT_MONGODB_DB_PORT + '/' +
-          procE.OPENSHIFT_APP_NAME;
+          procE.OPENSHIFT_APP_NAME + '/' + dbName;
       }
       else{
         //try heroku or local
-        mongoUri = procE.MONGOLAB_URI || procE.MONGOHQ_URL || 'mongodb:' + dbPath;
+        mongoUri = procE.MONGOLAB_URI || procE.MONGOHQ_URL || 'mongodb://localhost/' + dbName;
       }
       return mongoUri;
     },

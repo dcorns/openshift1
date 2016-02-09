@@ -30,8 +30,7 @@ module.exports = (function () {
         mongoUri = 'mongodb://' + procE.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
           procE.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
           procE.OPENSHIFT_MONGODB_DB_HOST + ':' +
-          procE.OPENSHIFT_MONGODB_DB_PORT + '/' +
-          procE.OPENSHIFT_APP_NAME + '/' + dbName;
+          procE.OPENSHIFT_MONGODB_DB_PORT + '/' + dbName;
       }
       else{
         //try heroku or local

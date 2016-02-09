@@ -24,9 +24,9 @@ app.get('/', function (req, res, next)
   res.status(200);
   res.header('Content-Type', 'text/html');
   res.end(data.toString().replace(/host:port/g, req.header('Host')));
-  corngoose.getCollection('examples', function(err, data){
-    console.dir(data);
-  });
+  //corngoose.getCollection('examples', function(err, data){
+  //  console.dir(data);
+  //});
 });
 
 app.get(/\/(css|js|img|icon|small-slides)\/?.*/, restify.serveStatic({directory: './static/'}));

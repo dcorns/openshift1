@@ -6,7 +6,7 @@ var cc          = require('config-multipaas'),
 var config      = cc(),
     app         = restify.createServer();
 
-corngoose.startDB(process.env.OPENSHIFT_MONGODB_DB_HOST || '//localhost/drc');
+corngoose.startDB('//localhost/drc');
 
 app.use(restify.queryParser());
 app.use(restify.CORS());

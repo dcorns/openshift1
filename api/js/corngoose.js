@@ -27,7 +27,7 @@ module.exports = (function () {
     setDbPath: function(dbPath){
       // if OPENSHIFT env variables are present, use the available connection info:
       if(procE.OPENSHIFT_MONGODB_DB_PASSWORD){
-        mongoUri = 'mongodb:' + procE.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+        mongoUri = 'mongodb://' + procE.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
           procE.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
           procE.OPENSHIFT_MONGODB_DB_HOST + ':' +
           procE.OPENSHIFT_MONGODB_DB_PORT + '/' +

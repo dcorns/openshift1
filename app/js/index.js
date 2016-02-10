@@ -16,7 +16,8 @@ slideShow.play(500);
 var mainContent = document.getElementById('content');
 var header = document.getElementById('top');
 //default view
-mainContent.innerHTML = pages.current;
+//mainContent.innerHTML = pages.current;
+loadContent('btnCurrent', mainContent);
 //Page Nav Logic
 var nav = document.getElementById('page-nav');
 nav.addEventListener('click', function(e){

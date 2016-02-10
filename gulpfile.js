@@ -14,13 +14,23 @@ var autoprefixer = require('gulp-autoprefixer');
 var webpack = require('gulp-webpack');
 
 gulp.task('webpack', function(){
-  return gulp.src('app/js/index.js')
+  return gulp.src('app/js/**/*.js')
     .pipe(webpack({
       output:{
         filename: 'bundle.js'
       }
     }))
     .pipe(gulp.dest('Development'));
+});
+
+gulp.task('webpack:prod', function(){
+  return gulp.src('app/js/**/*.js')
+    .pipe(webpack({
+      output:{
+        filename: 'bundle.js'
+      }
+    }))
+    .pipe(gulp.dest('static/js'));
 });
 
 gulp.task('copyassets', function(){

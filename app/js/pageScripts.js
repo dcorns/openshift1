@@ -6,6 +6,8 @@
  */
 'use strict';
 var skills = require('./viewScripts/skills');
+var current = require('./viewScripts/current');
 module.exports = {
-  skills: skills
+  skills: skills,
+  current: current
 };

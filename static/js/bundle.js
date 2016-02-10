@@ -54,7 +54,7 @@
 	var slideShow = __webpack_require__(1);
 	var slides = __webpack_require__(2);
 	var pageScripts = __webpack_require__(3);
-	var pages = __webpack_require__(8);
+	var pages = __webpack_require__(9);
 	slideShow.loadImages(slides);
 	slideShow.swap();
 	slideShow.play(500);
@@ -82,6 +82,7 @@
 	    case 'btnCurrent':
 	      slideShow.stop();
 	      el.innerHTML = pages.current;
+	      pageScripts.current();
 	      break;
 	    case 'btnSkills':
 	      slideShow.stop();
@@ -209,8 +210,10 @@
 	 */
 	'use strict';
 	var skills = __webpack_require__(4);
+	var current = __webpack_require__(8);
 	module.exports = {
-	  skills: skills
+	  skills: skills,
+	  current: current
 	};
 
 /***/ },
@@ -535,6 +538,25 @@
 
 /***/ },
 /* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * current
+	 * Created by dcorns on 2/9/16
+	 * Copyright © 2016 Dale Corns
+	 */
+	'use strict';
+	var doAjax = __webpack_require__(7);
+	module.exports = function current(){
+	  doAjax.ajaxGetJson('/current', function(data){
+	    console.dir(data);
+	  });
+	};
+
+
+
+/***/ },
+/* 9 */
 /***/ function(module, exports) {
 
 	'use strict';

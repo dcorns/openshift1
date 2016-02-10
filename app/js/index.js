@@ -36,6 +36,7 @@ function loadContent(btnId, el){
     case 'btnCurrent':
       slideShow.stop();
       el.innerHTML = pages.current;
+      pageScripts.current();
       break;
     case 'btnSkills':
       slideShow.stop();
@@ -73,4 +74,3 @@ mobileMenu.addEventListener('click', function(e){
   btnMobileMenu.classList.toggle('toggle-menu');
   loadContent(e.target.id, mainContent);
 });
-

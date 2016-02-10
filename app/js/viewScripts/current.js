@@ -28,6 +28,12 @@ function appendActivity(aObj, tbl){
   tbl.appendChild(row);
 }
 function buildActivityTable(data, tbl){
+  //Sort by start date using custom sort compare function
+  data.sort(function(a, b){
+    if(a.startDate > b.startDate) return 1;
+    if(a.startDate < b.startDate) return -1;
+    return 0;
+  });
   var len = data.length;
   var c = 0;
   for(c; c < len; c++){

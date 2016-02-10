@@ -5,6 +5,7 @@
  * Script for skills view, so expects certain dom elements to exist, automatically updates buttons and links for skills when exampleData changes.
  */
 'use strict';
+var doAjax = require('../doAjax.js');
 var examples = require('../models/exampleData');
 var exampleLinks = require('../exampleLinks');
 module.exports = function skills(){
@@ -20,8 +21,18 @@ module.exports = function skills(){
     exampleList.textContent = '';
   }
 
+  doAjax.ajaxGetJson('/skills', function(err,data){
+    if(err){
+      alert('There was a problem receiving current data!');
+      console.error(err);
+      return;
+    }
+    window.localStorage.setItem('technologies', JSON.stringify(data[0].technologies));
+    addButtons('lang-fram-btns', JSON.parse(window.localStorage.getItem('technologies')));
+  });
+
   btnreturn.addEventListener('click', goBackToSkillsMenu);
-  addButtons('lang-fram-btns', examples.technologies);
+
   btns.addEventListener('click', function(e){
     btnreturn.classList.toggle('toggle-menu');
     var skill = e.target.textContent;

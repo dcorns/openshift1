@@ -21,7 +21,6 @@ module.exports = function(app){
       res.status(200);
       res.contentType = 'json';
       res.send(data);
-      console.dir(data);
     });
   });
 

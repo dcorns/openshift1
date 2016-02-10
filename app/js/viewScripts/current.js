@@ -21,9 +21,7 @@ function appendActivity(aObj, tbl){
   var row = document.createElement('tr');
   var startDate = document.createElement('td');
   var activity = document.createElement('td');
-  var date = new Date();
-  date.setDate(aObj.startDate);
-  startDate.innerText = date.toLocaleDateString();
+  startDate.innerText = new Date(aObj.startDate).toLocaleDateString();
   activity.innerText = aObj.activity;
   row.appendChild(activity);
   row.appendChild(startDate);

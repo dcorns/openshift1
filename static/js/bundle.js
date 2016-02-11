@@ -210,7 +210,7 @@
 	    }
 	    var exampleList = getExampleList(skillName, data, competencies[0].technologies);
 	    if(exampleList.length < 1){
-	      h.textContent = 'There are currently no examples listed this skill';
+	      h.textContent = 'There are currently no examples listed for ' + skillName;
 	      el.appendChild(h);
 	      return;
 	    }
@@ -231,7 +231,12 @@
 	          alert('Error loading text from ' + e.target.rawTextLink);
 	          return;
 	        }
-	        makeCodePage(el, rawText, exampleDetails, exampleObj);
+	        clientRoutes.getData('repos', function(err, data){
+	          if(err){
+	            alert('No local repository data. Internet required for data download');
+	          }
+	          makeCodePage(el, rawText, exampleDetails, data);
+	        });
 	      });
 	  });
 
@@ -291,19 +296,7 @@
 	  });
 	}
 
-	//function buildLink(repoName, cb){
-	//  var lnk = document.createElement('a');
-	//  lnk.innerHTML = repoName;
-	//  getExample(repoName, function(err, data){
-	//    if(!err){
-	//      //lnk.href = data.html_url;
-	//      lnk.innerText = data;
-	//      cb(lnk);
-	//    }
-	//  });
-	//}
-
-	function makeCodePage(el, rawText, details, db){
+	function makeCodePage(el, rawText, details, repos){
 	  var codeArticle = document.getElementById('code-article'),
 	    codeContainer = document.getElementById('code-container'),
 	    theCode = document.getElementById('the-code'),
@@ -324,14 +317,13 @@
 	    theCode.id = 'the-code';
 	    pRepo.id = 'parent-repo';
 	    fileName.id = 'file-name';
-
-	    //pRepo.textContent = ' Repo: ' + db.repos[details.repoID].name;
-	    //pRepo.href = db.repos[details.repoID].href;
 	    fileName.textContent = details.fileName;
-
 	    codeArticle.appendChild(fileName);
-	    //codeArticle.appendChild(pRepo);
-
+	    if(repos){
+	      pRepo.textContent = ' Repo: ' + repos[details.repoID].name;
+	      pRepo.href = repos[details.repoID].href;
+	      codeArticle.appendChild(pRepo);
+	    }
 	    theCode.innerText = rawText;
 	    codeContainer.appendChild(theCode);
 	    codeArticle.appendChild(codeContainer);

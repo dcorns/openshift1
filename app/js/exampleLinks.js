@@ -6,21 +6,32 @@
  */
 'use strict';
 var doAjax = require('./doAjax.js');
-module.exports = function(skill, el, exampleObj, btnReturn, btnReturnFunction){
+var clientRoutes = require('./clientRoutes')();
+module.exports = function(skillName, competencies, el, btnReturn, btnReturnFunction){
 
-  var h = document.createElement('h3'),
-    exampBtns = document.createElement('nav'),
-    exampleList = getExampleList(skill, exampleObj);
-  el.textContent = '';
-
-  if(exampleList.length < 1){
-    h.textContent = 'There are currently no examples listed for ' + skill;
-    el.appendChild(h);
-    return;
-  }
+  var exampleObj,
+    h = document.createElement('h3'),
+    exampBtns = document.createElement('nav');
+    el.textContent = '';
 
   addSkillNameHeading();
-  addExamples();
+
+  clientRoutes.getData('examples', function(err, data){
+    if(err){
+      alert('No local example data found. Internet connection required.');
+      return;
+    }
+    var exampleList = getExampleList(skillName, data, competencies[0].technologies);
+    if(exampleList.length < 1){
+      h.textContent = 'There are currently no examples listed this skill';
+      el.appendChild(h);
+      return;
+    }
+    addExamples(exampleList, competencies[1].specifics);
+  });
+
+
+
 
   exampBtns.addEventListener('click', function(e){
     var exampleDetails = e.target.dataset;
@@ -46,11 +57,11 @@ module.exports = function(skill, el, exampleObj, btnReturn, btnReturnFunction){
   }
 
   function addSkillNameHeading(){
-    h.textContent = 'Code Examples for ' + skill + ' Skills';
+    h.textContent = 'Code Examples for ' + skillName + ' Skills';
     el.appendChild(h);
   }
 
-  function addExamples(){
+  function addExamples(exampleList, specifics){
     var count = 0, len = exampleList.length;
     for(count; count < len; count++){
       var d = document.createElement('div');
@@ -63,7 +74,7 @@ module.exports = function(skill, el, exampleObj, btnReturn, btnReturnFunction){
       var p = document.createElement('p');
       var specString = '';
       for (var spec of exampleList[count].specificsID){
-        specString = specString + exampleObj.specifics[spec] + ', '
+        specString = specString + specifics[spec] + ', '
       }
       specString = specString.slice(0, specString.lastIndexOf(','));
       p.innerText = specString;
@@ -75,16 +86,17 @@ module.exports = function(skill, el, exampleObj, btnReturn, btnReturnFunction){
 
 };
 
-function getExampleList(skill, exampleList){
-  var xmp = [], skill = exampleList.technologies.indexOf(skill);
-  for(var f of exampleList.examples){
+function getExampleList(skillName, examples, skills){
+  var xmp = [];
+  var skillId = skills.indexOf(skillName);
+  for(var f of examples){
     for(var ex of f.technologiesID){
-      if(skill === ex) xmp.push(f);
+      if(skillId === ex) xmp.push(f);
     }
   }
   return xmp;
 }
-
+//get file from file link
 function getExample(fileName, cb){
   doAjax.ajaxGet(fileName, function(err, data){
     if(err) cb(err, null);
@@ -126,12 +138,12 @@ function makeCodePage(el, rawText, details, db){
     pRepo.id = 'parent-repo';
     fileName.id = 'file-name';
 
-    pRepo.textContent = ' Repo: ' + db.repos[details.repoID].name;
-    pRepo.href = db.repos[details.repoID].href;
+    //pRepo.textContent = ' Repo: ' + db.repos[details.repoID].name;
+    //pRepo.href = db.repos[details.repoID].href;
     fileName.textContent = details.fileName;
 
     codeArticle.appendChild(fileName);
-    codeArticle.appendChild(pRepo);
+    //codeArticle.appendChild(pRepo);
 
     theCode.innerText = rawText;
     codeContainer.appendChild(theCode);

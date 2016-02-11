@@ -5,9 +5,9 @@
  * Script for skills view, so expects certain dom elements to exist, automatically updates buttons and links for skills when exampleData changes.
  */
 'use strict';
-var examples = require('../models/exampleData');
 var exampleLinks = require('../exampleLinks');
 var clientRoutes = require('../clientRoutes')();
+var competencies;
 module.exports = function skills(){
   var btns = document.getElementById('lang-fram-btns'),
     exampleList = document.getElementById('example-list'),
@@ -27,6 +27,7 @@ module.exports = function skills(){
       return;
     }
     addButtons('lang-fram-btns', data[0].technologies);
+    competencies = data;
   });
 
   btnreturn.addEventListener('click', goBackToSkillsMenu);
@@ -37,7 +38,9 @@ module.exports = function skills(){
     btns.classList.toggle('toggle-menu');
     h.classList.toggle('toggle-menu');
     if(e.target.id === 'lang-fram-btns') skill = '';
-    exampleLinks(skill, exampleList, examples, btnreturn, goBackToSkillsMenu);
+
+
+    exampleLinks(skill, competencies, exampleList, btnreturn, goBackToSkillsMenu);
   });
 };
 

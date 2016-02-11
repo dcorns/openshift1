@@ -7,7 +7,7 @@
  */
 'use strict';
 var doAjax = require('./doAjax.js');
-module.exports = function clientStore(){
+module.exports = function clientRoutes(){
   return{
     getData: function(path, cb){
       doAjax.ajaxGetJson('/' + path, function(err,data){

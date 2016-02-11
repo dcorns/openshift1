@@ -5,7 +5,6 @@
  * Script for skills view, so expects certain dom elements to exist, automatically updates buttons and links for skills when exampleData changes.
  */
 'use strict';
-var doAjax = require('../doAjax.js');
 var examples = require('../models/exampleData');
 var exampleLinks = require('../exampleLinks');
 var clientRoutes = require('../clientRoutes')();

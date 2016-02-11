@@ -71,7 +71,7 @@
 	 */
 	'use strict';
 	var doAjax = __webpack_require__(2);
-	module.exports = function clientStore(){
+	module.exports = function clientRoutes(){
 	  return{
 	    getData: function(path, cb){
 	      doAjax.ajaxGetJson('/' + path, function(err,data){
@@ -517,7 +517,6 @@
 	 * Script for skills view, so expects certain dom elements to exist, automatically updates buttons and links for skills when exampleData changes.
 	 */
 	'use strict';
-	var doAjax = __webpack_require__(2);
 	var examples = __webpack_require__(9);
 	var exampleLinks = __webpack_require__(3);
 	var clientRoutes = __webpack_require__(1)();
@@ -541,17 +540,6 @@
 	    }
 	    addButtons('lang-fram-btns', data[0].technologies);
 	  });
-
-	  //doAjax.ajaxGetJson('/skills', function(err,data){
-	  //  if(err){
-	  //    alert('There was a problem receiving current data!');
-	  //    console.error(err);
-	  //    return;
-	  //  }
-	  //  clientStore.getData(data[0]);
-	  //  window.localStorage.setItem('technologies', JSON.stringify(data[0].technologies));
-	  //  addButtons('lang-fram-btns', JSON.parse(window.localStorage.getItem('technologies')));
-	  //});
 
 	  btnreturn.addEventListener('click', goBackToSkillsMenu);
 
@@ -614,17 +602,25 @@
 	 * Copyright © 2016 Dale Corns
 	 */
 	'use strict';
-	var doAjax = __webpack_require__(2);
+	var clientRoutes = __webpack_require__(1)();
 	module.exports = function current(){
 	  var tblActivity = document.getElementById('tbl-activity');
-	  doAjax.ajaxGetJson('/current', function(err,data){
+	  clientRoutes.getData('current', function(err, data){
 	    if(err){
-	      alert('There was a problem receiving current data!');
+	      alert('No current data stored locally. Internet connection required');
 	      console.error(err);
 	      return;
 	    }
 	    buildActivityTable(data, tblActivity);
 	  });
+	  //doAjax.ajaxGetJson('/current', function(err,data){
+	  //  if(err){
+	  //    alert('There was a problem receiving current data!');
+	  //    console.error(err);
+	  //    return;
+	  //  }
+	  //  buildActivityTable(data, tblActivity);
+	  //});
 	};
 
 	function appendActivity(aObj, tbl){

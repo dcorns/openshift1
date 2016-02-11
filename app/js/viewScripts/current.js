@@ -4,12 +4,12 @@
  * Copyright © 2016 Dale Corns
  */
 'use strict';
-var doAjax = require('../doAjax.js');
+var clientRoutes = require('../clientRoutes')();
 module.exports = function current(){
   var tblActivity = document.getElementById('tbl-activity');
-  doAjax.ajaxGetJson('/current', function(err,data){
+  clientRoutes.getData('current', function(err, data){
     if(err){
-      alert('There was a problem receiving current data!');
+      alert('No current data stored locally. Internet connection required');
       console.error(err);
       return;
     }

@@ -8,6 +8,7 @@
 var doAjax = require('../doAjax.js');
 var examples = require('../models/exampleData');
 var exampleLinks = require('../exampleLinks');
+var clientRoutes = require('../clientRoutes')();
 module.exports = function skills(){
   var btns = document.getElementById('lang-fram-btns'),
     exampleList = document.getElementById('example-list'),
@@ -21,14 +22,12 @@ module.exports = function skills(){
     exampleList.textContent = '';
   }
 
-  doAjax.ajaxGetJson('/skills', function(err,data){
+  clientRoutes.getData('skills', function(err, data){
     if(err){
-      alert('There was a problem receiving current data!');
-      console.error(err);
+      alert('No skills data found locally. Internet required to load skills data.');
       return;
     }
-    window.localStorage.setItem('technologies', JSON.stringify(data[0].technologies));
-    addButtons('lang-fram-btns', JSON.parse(window.localStorage.getItem('technologies')));
+    addButtons('lang-fram-btns', data[0].technologies);
   });
 
   btnreturn.addEventListener('click', goBackToSkillsMenu);

@@ -5,7 +5,7 @@
  */
 'use strict';
 var restify     = require('restify'),
-  corngoose   = require('../js/corngoose');
+  corngoose   = require('corngoose');
 
 module.exports = function(app){
   app.get('/status', function (req, res, next)

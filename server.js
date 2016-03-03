@@ -1,7 +1,7 @@
 var cc          = require('config-multipaas'),
     restify     = require('restify'),
     fs          = require('fs'),
-    corngoose   = require('./api/js/corngoose');
+    corngoose   = require('corngoose');
 
 var config      = cc(),
     app         = restify.createServer();

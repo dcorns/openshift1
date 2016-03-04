@@ -25,6 +25,7 @@
   "dependencies": {
     "config-multipaas": "^0.1.0",
     "corngoose": "^1.1.0",
+    "do-ajax": "^1.0.0",
     "mongodb": "^2.1.4",
     "restify": "^2.8.3"
   },

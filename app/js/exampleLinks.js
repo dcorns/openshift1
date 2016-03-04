@@ -5,7 +5,7 @@
  * Used With Skills View and by skills.js
  */
 'use strict';
-var doAjax = require('./doAjax.js');
+var doAjax = require('do-ajax');
 var clientRoutes = require('./clientRoutes')();
 module.exports = function(skillName, competencies, el, btnReturn, btnReturnFunction){
 

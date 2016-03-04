@@ -6,7 +6,7 @@
  * Check for existing storage, available storage and either store keep. Return true if exists or successfully added.
  */
 'use strict';
-var doAjax = require('./doAjax.js');
+var doAjax = require('do-ajax');
 module.exports = function clientRoutes(){
   return{
     getData: function(path, cb){

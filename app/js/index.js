@@ -12,7 +12,7 @@ var pages = require('./build/views');
 slideShow.loadImages(slides);
 slideShow.swap();
 slideShow.play(500);
-//slideShow.swap();
+var btnLogin = document.getElementById('btnLogin');
 var mainContent = document.getElementById('content');
 var header = document.getElementById('top');
 //default view
@@ -20,6 +20,12 @@ var header = document.getElementById('top');
 loadContent('btnCurrent', mainContent);
 //Page Nav Logic
 var nav = document.getElementById('page-nav');
+
+btnLogin.addEventListener('click', function(e){
+  //open login view/registration view
+  loadContent(e.target.id, mainContent);
+});
+
 nav.addEventListener('click', function(e){
   loadContent(e.target.id, mainContent);
 });
@@ -59,6 +65,11 @@ function loadContent(btnId, el){
     case 'btnPosts':
       slideShow.stop();
       el.innerHTML = pages.posts;
+      break;
+    case 'btnLogin':
+      slideShow.stop();
+      el.innerHTML = pages.login;
+      pageScripts.login;
       break;
   }
 }

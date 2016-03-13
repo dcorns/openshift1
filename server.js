@@ -11,6 +11,7 @@ corngoose.startDB('drc');
 app.use(restify.queryParser());
 app.use(restify.CORS());
 app.use(restify.fullResponse());
+app.use(restify.bodyParser());
 
 // Routes
 require('./api/routes/routes')(app);

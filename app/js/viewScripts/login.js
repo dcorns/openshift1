@@ -20,9 +20,8 @@ module.exports = function login(){
         if(err) alert('Account Creation Failed');
         else{
           alert('Account created');
+          console.dir(data);
         }
-
-        console.dir(err, data);
       });
     }
   });

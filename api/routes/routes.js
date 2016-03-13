@@ -5,7 +5,8 @@
  */
 'use strict';
 var restify     = require('restify'),
-  corngoose   = require('corngoose');
+  corngoose   = require('corngoose'),
+  auth = require('cornorize');
 
 module.exports = function(app){
   app.get('/status', function (req, res, next)
@@ -48,29 +49,38 @@ module.exports = function(app){
   });
 
   app.post('/newAccount', function (req, res, next){
-    console.log('newAccount');
-    console.dir(req.body);
-    corngoose.dbDocInsert(req.body.email,'users', function(err, data){
+    auth.encrypt(req.params.password, function(err, data){
       if(err){
-        console.error(err);
-        res.status(500);
-        res.contentType = 'json';
-        res.send(err);
+        playErr(res, err);
       }else{
-        console.log(data);
-        res.status(200);
-        res.contentType = 'json';
-        res.send(data);
+        const hash = data;
+        corngoose.dbDocInsert({email:req.params.email},{email:req.params.email, password: hash},'users', function(err, data){
+          if(err){
+            playErr(res, err);
+          }else{
+            res.status(201);
+            res.contentType = 'json';
+            res.send(data);
+          }
+        });
       }
     });
+
   });
 
   app.post('/login', function (req, res, next){
     corngoose.getCollection('examples', function(err, data){
-      res.status(200);
+      res.status(201);
       res.contentType = 'json';
       res.send(data);
     });
   });
 
 };
+
+function playErr(res, err){
+  console.error(err);
+  res.status(500);
+  res.contentType = 'json';
+  res.send(err);
+}

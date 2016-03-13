@@ -69,7 +69,7 @@ function loadContent(btnId, el){
     case 'btnLogin':
       slideShow.stop();
       el.innerHTML = pages.login;
-      pageScripts.login;
+      pageScripts.login();
       break;
   }
 }

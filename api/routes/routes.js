@@ -47,4 +47,30 @@ module.exports = function(app){
     });
   });
 
+  app.post('/newAccount', function (req, res, next){
+    console.log('newAccount');
+    console.dir(req.body);
+    corngoose.dbDocInsert(req.body.email,'users', function(err, data){
+      if(err){
+        console.error(err);
+        res.status(500);
+        res.contentType = 'json';
+        res.send(err);
+      }else{
+        console.log(data);
+        res.status(200);
+        res.contentType = 'json';
+        res.send(data);
+      }
+    });
+  });
+
+  app.post('/login', function (req, res, next){
+    corngoose.getCollection('examples', function(err, data){
+      res.status(200);
+      res.contentType = 'json';
+      res.send(data);
+    });
+  });
+
 };

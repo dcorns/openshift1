@@ -49,13 +49,13 @@
 	__webpack_require__(4);
 	__webpack_require__(7);
 	__webpack_require__(5);
-	__webpack_require__(11);
 	__webpack_require__(12);
 	__webpack_require__(13);
 	__webpack_require__(6);
 	__webpack_require__(9);
 	__webpack_require__(10);
-	module.exports = __webpack_require__(8);
+	__webpack_require__(8);
+	module.exports = __webpack_require__(11);
 
 
 /***/ },
@@ -649,6 +649,7 @@
 	  var passwordIn = document.getElementById('passwordIn');
 	  var confirmPassword = document.getElementById('confirmPassword');
 	  var btnSaveAccount = document.getElementById('saveAccount');
+
 	  btnSaveAccount.addEventListener('click', function(){
 	    if(passwordIn.value !== confirmPassword.value){
 	      alert('Passwords do not match');

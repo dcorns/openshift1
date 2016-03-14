@@ -11,6 +11,7 @@ module.exports = function login(){
   var passwordIn = document.getElementById('passwordIn');
   var confirmPassword = document.getElementById('confirmPassword');
   var btnSaveAccount = document.getElementById('saveAccount');
+
   btnSaveAccount.addEventListener('click', function(){
     if(passwordIn.value !== confirmPassword.value){
       alert('Passwords do not match');

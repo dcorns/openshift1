@@ -77,6 +77,16 @@ gulp.task('build-css', function(){
     .pipe(gulp.dest('Development'));
 });
 
+gulp.task('build-css:prod', function(){
+  return gulp.src('app/styles/**/*')
+    .pipe(concatCss('main.css'))
+    .pipe(cssnext({
+      compress: true
+    }))
+    .pipe(autoprefixer())
+    .pipe(gulp.dest('static/css'));
+});
+
 gulp.task('watcher', function(){
   gulp.watch('app/js/**/*', ['webpack']);
   //Keep Development build folder assets in sync

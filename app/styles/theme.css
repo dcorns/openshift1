@@ -6,6 +6,9 @@
     --emph_color: #FFF6BF;
     --shade_color: #FF3127;
     --show_bg: #000000;
+    --valid_bg: #ddffdd;
+    --invalid_bg: #ffdddd;
+
 }
 
 body{
@@ -73,11 +76,11 @@ button {
 }
 
 input:invalid {
-    background-color: #ffdddd;
+    background-color: var(--invalid_bg);
 }
 
 input:valid {
-    background-color: #ddffdd;
+    background-color: var( --valid_bg);
 }
 
 input:required {

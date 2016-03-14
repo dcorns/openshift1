@@ -5,25 +5,30 @@
  */
 'use strict';
 var doAjax = require('do-ajax');
+var pageScripts = require('../pageScripts');
+var pages = require('../build/views');
 
 module.exports = function login(){
   var emailIn = document.getElementById('emailIn');
   var passwordIn = document.getElementById('passwordIn');
   var confirmPassword = document.getElementById('confirmPassword');
-  var btnSaveAccount = document.getElementById('saveAccount');
+  var btnLogin = document.getElementById('btnLogin');
+  var btnJoin = document.getElementById('btnJoin');
 
-  btnSaveAccount.addEventListener('click', function(){
-    if(passwordIn.value !== confirmPassword.value){
-      alert('Passwords do not match');
-    }
-    else{
-      doAjax.ajaxPostJson('/newAccount', {email: emailIn.value, password: passwordIn.value}, function(err, data){
-        if(err) alert('Account Creation Failed');
+  btnLogin.addEventListener('click', function(){
+      doAjax.ajaxPostJson('/login', {email: emailIn.value, password: passwordIn.value}, function(err, data){
+        if(err) alert('Login Failed');
         else{
-          alert('Account created');
+          alert('Logged In');
           console.dir(data);
         }
       });
-    }
+  });
+
+  btnJoin.addEventListener('click', function(e){
+    //change to register view
+    e.target.parentNode.innerHTML = pages.register;
+    console.dir(pages.register);
+    pageScripts.register();
   });
 };

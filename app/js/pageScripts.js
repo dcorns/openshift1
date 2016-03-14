@@ -8,8 +8,10 @@
 var skills = require('./viewScripts/skills');
 var current = require('./viewScripts/current');
 var login = require('./viewScripts/login');
+var register = require('./viewScripts/register');
 module.exports = {
   skills: skills,
   current: current,
-  login: login
+  login: login,
+  register: register
 };

@@ -71,6 +71,10 @@ function loadContent(btnId, el){
       el.innerHTML = pages.login;
       pageScripts.login();
       break;
+    case 'btnJoin':
+      el.innerHTML = pages.register;
+      pageScripts.register();
+      break;
   }
 }
 

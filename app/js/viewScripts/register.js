@@ -21,6 +21,7 @@ module.exports = function register(){
         if(err) alert('Account Creation Failed');
         else{
           alert('Account created');
+          window.location = '#/posts';
           console.dir(data);
         }
       });

@@ -9,73 +9,54 @@ var slideShow = require('./slideShow');
 var slides = require('./models/slides');
 var pageScripts = require('./pageScripts');
 var pages = require('./build/views');
+var route = require('./viewRouter')(pages, pageScripts);//(view, controller)
+//Create object for globals
+var app = {};
+
 slideShow.loadImages(slides);
 slideShow.swap();
 slideShow.play(500);
 var btnLogin = document.getElementById('btnLogin');
-var mainContent = document.getElementById('content');
+var mainContent = document.getElementById('main-content');
 var header = document.getElementById('top');
 //default view
-//mainContent.innerHTML = pages.current;
-loadContent('btnCurrent', mainContent);
-//Page Nav Logic
-var nav = document.getElementById('page-nav');
-
-btnLogin.addEventListener('click', function(e){
-  //open login view/registration view
-  loadContent(e.target.id, mainContent);
-});
-
-nav.addEventListener('click', function(e){
-  loadContent(e.target.id, mainContent);
-});
+route('#/current');
 
 header.addEventListener('mouseover', function(){
   slideShow.play(3000);
 });
 
-function loadContent(btnId, el){
-  switch (btnId){
-    case 'btnAbout':
-      slideShow.stop();
-      el.innerHTML = pages.aboutMe;
-      break;
-    case 'btnCurrent':
-      slideShow.stop();
-      el.innerHTML = pages.current;
-      pageScripts.current();
-      break;
-    case 'btnSkills':
-      slideShow.stop();
-      el.innerHTML = pages.skills;
-      pageScripts.skills();
-      break;
-    case 'btnExamples':
-      slideShow.stop();
-      el.innerHTML = pages.examples;
-      break;
-    case 'btnAccolades':
-      slideShow.stop();
-      el.innerHTML = pages.accolades;
-      break;
-    case 'btnProjects':
-      slideShow.stop();
-      el.innerHTML = pages.projects;
-      break;
-    case 'btnPosts':
-      slideShow.stop();
-      el.innerHTML = pages.posts;
-      break;
-    case 'btnLogin':
-      slideShow.stop();
-      el.innerHTML = pages.login;
-      pageScripts.login();
-      break;
-    case 'btnJoin':
-      el.innerHTML = pages.register;
-      pageScripts.register();
-      break;
+function firstDo(){
+  //Handle Refresh by checking session storage for last href and redirecting if it exists
+  var lastHref = window.sessionStorage.getItem('href');
+  var netAction = window.sessionStorage.getItem('netAction');
+  if (lastHref) {
+    //dgApp.loadRoute(lastHref);
+    route(lastHref);
   }
+  else {//load home template
+    lastHref = '#/current';
+    window.sessionStorage.setItem('href', lastHref);
+    window.history.pushState(null, null, lastHref);
+    //dgApp.loadRoute(lastHref);
+    route(lastHref);
+  }
+  //Add event handlers for 'a' tags
+  var links = document.getElementsByTagName('a');
+  var idx = 0, ln = links.length;
+  for (idx; idx < ln; idx++) {
+    links[idx].addEventListener('click', function (e) {
+      window.sessionStorage.setItem('href', this.href);
+      window.history.pushState(null, null, this.href);
+      e.preventDefault();
+      route(this.href);
+    });
+  }
+  //Add front and back button handler
+  window.addEventListener('popstate', function () {
+    window.sessionStorage.setItem('href', location.href);
+    route(location.href);
+  });
 }
 
 //mobile logic
@@ -88,5 +69,19 @@ btnMobileMenu.addEventListener('click', function(){
 mobileMenu.addEventListener('click', function(e){
   mobileMenu.classList.toggle('toggle-menu');
   btnMobileMenu.classList.toggle('toggle-menu');
-  loadContent(e.target.id, mainContent);
 });
+
+function winready(f){
+  var preOnload = window.onload;
+  if(typeof preOnload !== 'function'){
+    window.onload = f;
+  }
+  else{
+    window.onload = function() {
+      preOnload();
+      f();
+    }
+  }
+}
+
+winready(firstDo());

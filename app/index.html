@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Dale Corns</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 <header id="top">
@@ -27,27 +27,27 @@
     <div class="mobile-menu">
         <img id="btnMobileMenu" src = "icon/mobile_menu-square_alt.png">
         <nav class="toggle-menu" id="mobile-menu-items">
-            <img src="icon/mobileCurrent.svg" id="btnCurrent">
-            <img src="icon/mobileSkills.svg" id="btnSkills">
-            <img src="icon/mobileExamples.svg" id="btnExamples">
-            <img src="icon/mobileProjects.svg" id="btnProjects">
-            <img src="icon/mobilePosts.svg" id="btnPosts">
-            <img src="icon/mobileAccolades.svg" id="btnAccolades">
-            <img src="icon/mobileAbout.svg" id="btnAbout">
+            <a href="#/current"><img src="icon/mobileCurrent.svg" id="btnCurrent"></a>
+            <a href="#/skills"><img src="icon/mobileSkills.svg" id="btnSkills"></a>
+            <a href="#/examples"><img src="icon/mobileExamples.svg" id="btnExamples"></a>
+            <a href="#/projects"><img src="icon/mobileProjects.svg" id="btnProjects"></a>
+            <a href="#/posts"><img src="icon/mobilePosts.svg" id="btnPosts"></a>
+            <a href="#/accolades"><img src="icon/mobileAccolades.svg" id="btnAccolades"></a>
+            <a href="#/aboutMe"><img src="icon/mobileAbout.svg" id="btnAbout"></a>
         </nav>
     </div>
 </header>
 <!--I use the same id's for mobile and desktop menu because it saves code and only one menu is is displayed at any given time-->
 <nav id="page-nav" class="page-nav">
-        <a><img src="icon/currentLink.svg" id="btnCurrent"></a>
-        <a><img src="icon/skillsLink.svg" id="btnSkills"></a>
-        <a><img src="icon/examplesLink.svg" id="btnExamples"></a>
-        <a><img src="icon/projectsLink.svg" id="btnProjects"></a>
-        <a><img src="icon/postsLink.svg" id="btnPosts"></a>
-        <a><img src="icon/accoladesLink.svg" id="btnAccolades"></a>
-        <a><img src="icon/aboutLink.svg" id="btnAbout"></a>
+        <a href="#/current"><img src="icon/currentLink.svg"></a>
+        <a href="#/skills"><img src="icon/skillsLink.svg"></a>
+        <a href="#/examples"><img src="icon/examplesLink.svg"></a>
+        <a href="#/projects"><img src="icon/projectsLink.svg"></a>
+        <a href="#/posts"><img src="icon/postsLink.svg"></a>
+        <a href="#/accolades"><img src="icon/accoladesLink.svg"></a>
+        <a href="#/aboutMe"><img src="icon/aboutLink.svg"></a>
 </nav>
-<main id="content"></main>
-<script src="bundle.js" async></script>
+<main id="main-content"></main>
+<script src="js/bundle.js" async></script>
 </body>
 </html>

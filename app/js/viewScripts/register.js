@@ -6,7 +6,7 @@
 'use strict';
 var doAjax = require('do-ajax');
 
-module.exports = function login(){
+module.exports = function register(){
   var emailIn = document.getElementById('emailIn');
   var passwordIn = document.getElementById('passwordIn');
   var confirmPassword = document.getElementById('confirmPassword');

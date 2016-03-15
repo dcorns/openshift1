@@ -5,8 +5,6 @@
  */
 'use strict';
 var doAjax = require('do-ajax');
-var pageScripts = require('../pageScripts');
-var pages = require('../build/views');
 
 module.exports = function login(){
   var emailIn = document.getElementById('emailIn');
@@ -27,8 +25,6 @@ module.exports = function login(){
 
   btnJoin.addEventListener('click', function(e){
     //change to register view
-    e.target.parentNode.innerHTML = pages.register;
-    console.dir(pages.register);
-    pageScripts.register();
+    window.location = '/#/register';
   });
 };

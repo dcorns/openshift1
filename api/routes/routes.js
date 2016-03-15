@@ -69,13 +69,33 @@ module.exports = function(app){
   });
 
   app.post('/login', function (req, res, next){
-    corngoose.getCollection('examples', function(err, data){
-      res.status(201);
-      res.contentType = 'json';
-      res.send(data);
+    console.log(req.params);
+    res.contentType = 'json';
+    let email, password;
+    try{
+      email = req.params.email; password = req.params.password;
+    }
+    catch(e){
+      res.status(400);
+      res.send(e);
+    }
+    corngoose.dbDocFind({email:email}, 'users', function(err, data){
+      if(err){
+        res.status(404);
+        res.send(err);
+      }else{
+        auth.authenticate({password: password}, {passHash: data.password}, function(err, data){
+          if(err){
+            res.status(401);
+            res.send(err);
+          }
+          let token = auth.makeToken(data, 10, 'thisIsOnlyAtestingKey');
+          res.status(200);
+          res.send({token: token});
+        });
+      }
     });
   });
-
 };
 
 function playErr(res, err){

@@ -11,6 +11,7 @@ module.exports = function register(){
   var passwordIn = document.getElementById('passwordIn');
   var confirmPassword = document.getElementById('confirmPassword');
   var btnSaveAccount = document.getElementById('saveAccount');
+  emailIn.value = sessionStorage.getItem('email');
 
   btnSaveAccount.addEventListener('click', function(){
     if(passwordIn.value !== confirmPassword.value){
@@ -18,11 +19,12 @@ module.exports = function register(){
     }
     else{
       doAjax.ajaxPostJson('/newAccount', {email: emailIn.value, password: passwordIn.value}, function(err, data){
-        if(err) alert('Account Creation Failed');
+        if(err) alert('Account Creation Failed: ' + err);
         else{
           alert('Account created');
+          sessionStorage.removeItem('email');
+          localStorage.setItem('DRCtoken', data.token);
           window.location = '#/posts';
-          console.dir(data);
         }
       });
     }

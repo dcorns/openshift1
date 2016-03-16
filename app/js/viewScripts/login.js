@@ -14,12 +14,14 @@ module.exports = function login(){
   btnLogin.addEventListener('click', function(){
       doAjax.ajaxPostJson('/login', {email: emailIn.value, password: passwordIn.value}, function(err, data){
         if(err){
-          alert('Login Failed');
+          alert('Login Failed: ' + err);
+          console.dir(err);
+          sessionStorage.setItem('email', emailIn.value);
           window.location = '#/register';
         }
         else{
-          alert('Logged In');
-          console.dir(data);
+          localStorage.setItem('DRCToken', data.token);
+          window.location = '#/posts';
         }
       });
   });

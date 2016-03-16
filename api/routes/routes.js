@@ -49,18 +49,21 @@ module.exports = function(app){
   });
 
   app.post('/newAccount', function (req, res, next){
+    let user = {email:req.params.email.toLowerCase(), accessLevel: 'user'};
     auth.encrypt(req.params.password, function(err, data){
       if(err){
         playErr(res, err);
       }else{
-        const hash = data;
-        corngoose.dbDocInsert({email:req.params.email},{email:req.params.email, password: hash},'users', function(err, data){
+        user.hash = data;
+        corngoose.dbDocInsert({email:req.params.email.toLowerCase()}, user, 'users', function(err, data){
           if(err){
             playErr(res, err);
           }else{
+            user.tokenAddress = req.connection.remoteAddress;
+            let token = auth.makeToken(user, 10, process.env.DRCAUTH);
             res.status(201);
             res.contentType = 'json';
-            res.send(data);
+            res.send({token:token});
           }
         });
       }
@@ -69,11 +72,10 @@ module.exports = function(app){
   });
 
   app.post('/login', function (req, res, next){
-    console.log(req.params);
     res.contentType = 'json';
     let email, password;
     try{
-      email = req.params.email; password = req.params.password;
+      email = req.params.email.toLowerCase(); password = req.params.password;
     }
     catch(e){
       res.status(400);
@@ -83,18 +85,34 @@ module.exports = function(app){
       if(err){
         res.status(404);
         res.send(err);
-      }else{
-        auth.authenticate({password: password}, {passHash: data.password}, function(err, data){
+      }
+      else{
+        let user = {email: data[0].email, accessLevel: data[0].accessLevel, tokenAddress: req.connection.remoteAddress};
+        auth.authenticate({password: password}, {passHash: data[0].hash}, function(err, data){
           if(err){
+            console.dir(err);
             res.status(401);
             res.send(err);
           }
-          let token = auth.makeToken(data, 10, process.env.DRCAUTH);
-          res.status(200);
+          console.dir(user);
+          let token = auth.makeToken(user, 10, process.env.DRCAUTH);
+          console.log(token);
+          res.status(201);
           res.send({token: token});
         });
       }
     });
+  });
+
+  app.post('/tokenAccess', function(req, res, next){
+    res.contentType = 'json';
+    let DRCTech = req.params.DRCTech, userAccess, remoteAddress = req.connection.remoteAddress;
+    userAccess = auth.decodeToken(DRCTech, process.env.DRCAUTH);
+    if(userAccess){
+      if(userAccess.remoteAddress === remoteAddress){
+        //Now what about expiration date
+      }
+    }
   });
 };
 

@@ -7,6 +7,7 @@
 //Main JS File
 var slideShow = require('./slideShow');
 var slides = require('./models/slides');
+var doAjax = require('doAjax');
 var pageScripts = require('./pageScripts');
 var pages = require('./build/views');
 var route = require('./viewRouter')(pages, pageScripts);//(view, controller)
@@ -16,8 +17,10 @@ var app = {};
 slideShow.loadImages(slides);
 slideShow.swap();
 slideShow.play(500);
-var btnLogin = document.getElementById('btnLogin');
-var mainContent = document.getElementById('main-content');
+const btnLogin = document.getElementById('btnLogin');
+const btnLogOut = document.getElementById('btnLogOut');
+checkForToken(btnLogOut, btnLogin);
+//var mainContent = document.getElementById('main-content');
 var header = document.getElementById('top');
 //default view
 route('#/current');
@@ -81,6 +84,19 @@ function winready(f){
       preOnload();
       f();
     }
+  }
+}
+
+function checkForToken(btnOff, btnOn){
+  const DRCToken = localStorage.getItem('DRCToken');
+  if(DRCToken){
+    doAjax.ajaxPostJson('/tokenAccess',{DRCToken: DRCToken}, function(err, data){
+      if(err) console.error(err);
+      else{
+        btnOff.classList.toggle('hide');
+        btnOn.classList.toggle('hide');
+      }
+    });
   }
 }
 

@@ -359,8 +359,9 @@
 	slideShow.loadImages(slides);
 	slideShow.swap();
 	slideShow.play(500);
-	var btnLogin = document.getElementById('btnLogin');
-	var mainContent = document.getElementById('main-content');
+	const btnLogin = document.getElementById('btnLogin');
+	const btnLogOut = document.getElementById('btnLogOut');
+	//var mainContent = document.getElementById('main-content');
 	var header = document.getElementById('top');
 	//default view
 	route('#/current');
@@ -654,12 +655,14 @@
 	  btnLogin.addEventListener('click', function(){
 	      doAjax.ajaxPostJson('/login', {email: emailIn.value, password: passwordIn.value}, function(err, data){
 	        if(err){
-	          alert('Login Failed');
+	          alert('Login Failed: ' + err);
+	          console.dir(err);
+	          sessionStorage.setItem('email', emailIn.value);
 	          window.location = '#/register';
 	        }
 	        else{
-	          alert('Logged In');
-	          console.dir(data);
+	          localStorage.setItem('token', data.token);
+	          window.location = '#/posts';
 	        }
 	      });
 	  });
@@ -682,6 +685,7 @@
 	  var passwordIn = document.getElementById('passwordIn');
 	  var confirmPassword = document.getElementById('confirmPassword');
 	  var btnSaveAccount = document.getElementById('saveAccount');
+	  emailIn.value = sessionStorage.getItem('email');
 
 	  btnSaveAccount.addEventListener('click', function(){
 	    if(passwordIn.value !== confirmPassword.value){
@@ -689,11 +693,12 @@
 	    }
 	    else{
 	      doAjax.ajaxPostJson('/newAccount', {email: emailIn.value, password: passwordIn.value}, function(err, data){
-	        if(err) alert('Account Creation Failed');
+	        if(err) alert('Account Creation Failed: ' + err);
 	        else{
 	          alert('Account created');
+	          sessionStorage.removeItem('email');
+	          localStorage.setItem('token', data.token);
 	          window.location = '#/posts';
-	          console.dir(data);
 	        }
 	      });
 	    }

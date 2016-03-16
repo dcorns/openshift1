@@ -89,7 +89,7 @@ module.exports = function(app){
             res.status(401);
             res.send(err);
           }
-          let token = auth.makeToken(data, 10, 'thisIsOnlyAtestingKey');
+          let token = auth.makeToken(data, 10, process.env.DRCAUTH);
           res.status(200);
           res.send({token: token});
         });

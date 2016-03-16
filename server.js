@@ -15,7 +15,6 @@ app.use(restify.bodyParser());
 
 // Routes
 require('./api/routes/routes')(app);
-
 app.get('/', function (req, res, next)
 {
   var data = fs.readFileSync(__dirname + '/index.html');

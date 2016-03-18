@@ -9,9 +9,10 @@ var doAjax = require('do-ajax');
 module.exports = function login(){
   var emailIn = document.getElementById('emailIn');
   var passwordIn = document.getElementById('passwordIn');
-  var btnLogin = document.getElementById('btnLogin');
+  var btnSubmitLogin = document.getElementById('btnSubmitLogin');
 
-  btnLogin.addEventListener('click', function(){
+  btnSubmitLogin.addEventListener('click', function(){
+    console.log('btnLogin Clicked');
       doAjax.ajaxPostJson('/login', {email: emailIn.value, password: passwordIn.value}, function(err, data){
         if(err){
           alert('Login Failed: ' + err);
@@ -20,6 +21,10 @@ module.exports = function login(){
           window.location = '#/register';
         }
         else{
+          const btnLogin = document.getElementById('btnLogin');
+          const btnLogOut = document.getElementById('btnLogOut');
+          btnLogOut.classList.toggle('hide');
+          btnLogin.classList.toggle('hide');
           localStorage.setItem('DRCToken', data.token);
           window.location = '#/posts';
         }

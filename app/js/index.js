@@ -7,7 +7,7 @@
 //Main JS File
 var slideShow = require('./slideShow');
 var slides = require('./models/slides');
-var doAjax = require('doAjax');
+var doAjax = require('do-ajax');
 var pageScripts = require('./pageScripts');
 var pages = require('./build/views');
 var route = require('./viewRouter')(pages, pageScripts);//(view, controller)
@@ -91,8 +91,13 @@ function checkForToken(btnOff, btnOn){
   const DRCToken = localStorage.getItem('DRCToken');
   if(DRCToken){
     doAjax.ajaxPostJson('/tokenAccess',{DRCToken: DRCToken}, function(err, data){
-      if(err) console.error(err);
-      else{
+      if(err){
+        console.log('error');
+        console.error(err);
+      } 
+      else{ 
+        console.log(data);
+        console.log('token Exist use token for access');
         btnOff.classList.toggle('hide');
         btnOn.classList.toggle('hide');
       }

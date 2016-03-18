@@ -21,9 +21,12 @@ module.exports = function register(){
       doAjax.ajaxPostJson('/newAccount', {email: emailIn.value, password: passwordIn.value}, function(err, data){
         if(err) alert('Account Creation Failed: ' + err);
         else{
-          alert('Account created');
+          const btnLogin = document.getElementById('btnLogin');
+          const btnLogOut = document.getElementById('btnLogOut');
+          btnLogOut.classList.toggle('hide');
+          btnLogin.classList.toggle('hide');
           sessionStorage.removeItem('email');
-          localStorage.setItem('DRCtoken', data.token);
+          localStorage.setItem('DRCToken', data.token);
           window.location = '#/posts';
         }
       });

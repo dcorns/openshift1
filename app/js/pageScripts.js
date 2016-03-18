@@ -11,6 +11,7 @@ module.exports = (function() {
     skills: require('./viewScripts/skills'),
     current: require('./viewScripts/current'),
     login: require('./viewScripts/login'),
-    register: require('./viewScripts/register')
+    register: require('./viewScripts/register'),
+    logout: require('./viewScripts/logout')
   }
 })();

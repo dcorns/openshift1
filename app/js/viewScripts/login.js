@@ -5,9 +5,8 @@
  */
 'use strict';
 var doAjax = require('do-ajax');
-var help = require('../helperMethods');
 
-module.exports = function login(){
+module.exports = function login(app){
   var emailIn = document.getElementById('emailIn');
   var passwordIn = document.getElementById('passwordIn');
   var btnSubmitLogin = document.getElementById('btnSubmitLogin');
@@ -22,9 +21,7 @@ module.exports = function login(){
           window.location = '#/register';
         }
         else{
-          const btnLogin = document.getElementById('btnLogin');
-          const btnLogOut = document.getElementById('btnLogOut');
-          help.toggleClass([btnLogOut, btnLogin], 'hide');
+          app.help.toggleClass(app.sharedObjects.toggleElements, 'hide');
           localStorage.setItem('DRCToken', data.token);
           window.location = '#/posts';
         }

@@ -5,20 +5,24 @@
  */
 'use strict';
 //Main JS File
+const mySkills = {};
+mySkills.sharedObjects = require('./sharedObjects');
 var slideShow = require('./slideShow');
 var slides = require('./models/slides');
 var doAjax = require('do-ajax');
-var pageScripts = require('./pageScripts');
 var pages = require('./build/views');
+mySkills.help = require('./helperMethods');
+var pageScripts = require('./pageScripts')(mySkills);
 var route = require('./viewRouter')(pages, pageScripts);//(view, controller)
-var help = require('./helperMethods');
+
 slideShow.loadImages(slides);
 slideShow.swap();
 slideShow.play(500);
-const btnLogin = document.getElementById('btnLogin');
-const btnLogOut = document.getElementById('btnLogOut');
-checkForToken(btnLogOut, btnLogin);
-//var mainContent = document.getElementById('main-content');
+//load shared and dom objects
+mySkills.sharedObjects.init();
+
+checkForToken();
+
 var header = document.getElementById('top');
 //default view
 route('#/current');
@@ -83,7 +87,7 @@ function winready(f){
   }
 }
 
-function checkForToken(btnOff, btnOn){
+function checkForToken(){
   const DRCToken = localStorage.getItem('DRCToken');
   if(DRCToken){
     doAjax.ajaxPostJson('/tokenAccess',{DRCToken: DRCToken}, function(err, data){
@@ -94,7 +98,7 @@ function checkForToken(btnOff, btnOn){
       else{ 
         console.log(data);
         console.log('token Exist use token for access');
-        help.toggleClass([btnOff, btnOn], 'hide');
+        mySkills.help.toggleClass(mySkills.sharedObjects.toggleElements, 'hide');
       }
     });
   }

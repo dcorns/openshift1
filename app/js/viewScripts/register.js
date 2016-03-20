@@ -5,9 +5,8 @@
  */
 'use strict';
 var doAjax = require('do-ajax');
-var help = require('../helperMethods');
 
-module.exports = function register(){
+module.exports = function register(app){
   var emailIn = document.getElementById('emailIn');
   var passwordIn = document.getElementById('passwordIn');
   var confirmPassword = document.getElementById('confirmPassword');
@@ -22,9 +21,7 @@ module.exports = function register(){
       doAjax.ajaxPostJson('/newAccount', {email: emailIn.value, password: passwordIn.value}, function(err, data){
         if(err) alert('Account Creation Failed: ' + err);
         else{
-          const btnLogin = document.getElementById('btnLogin');
-          const btnLogOut = document.getElementById('btnLogOut');
-          help.toggleClass([btnLogOut, btnLogin], 'hide');
+          app.help.toggleClass(app.sharedObjects.toggleElements, 'hide');
           sessionStorage.removeItem('email');
           localStorage.setItem('DRCToken', data.token);
           window.location = '#/posts';

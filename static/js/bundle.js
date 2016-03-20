@@ -47,18 +47,20 @@
 	__webpack_require__(1);
 	__webpack_require__(3);
 	__webpack_require__(4);
-	__webpack_require__(7);
 	__webpack_require__(5);
-	__webpack_require__(14);
+	__webpack_require__(10);
+	__webpack_require__(6);
+	__webpack_require__(7);
+	__webpack_require__(16);
+	__webpack_require__(9);
+	__webpack_require__(17);
+	__webpack_require__(18);
+	__webpack_require__(8);
+	__webpack_require__(12);
 	__webpack_require__(13);
 	__webpack_require__(15);
-	__webpack_require__(16);
-	__webpack_require__(6);
-	__webpack_require__(9);
-	__webpack_require__(10);
-	__webpack_require__(12);
-	__webpack_require__(11);
-	module.exports = __webpack_require__(8);
+	__webpack_require__(14);
+	module.exports = __webpack_require__(11);
 
 
 /***/ },
@@ -88,7 +90,7 @@
 	        }
 	      });
 	    }
-	  }
+	  };
 	};
 
 /***/ },
@@ -340,6 +342,35 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	/**
+	 * helperMethods.js
+	 * Created by dcorns on 3/18/16
+	 * Copyright © 2016 Dale Corns
+	 */
+	'use strict';
+	module.exports = (function(){
+	  return{
+	    //Take an array of elements and toggles the given class
+	    toggleClass: function toggleClass(elArray, tClass){
+	      if(!(Array.isArray(elArray))) return null;
+	      if((typeof tClass !== 'string')) return null;
+	      let i = 0, len = elArray.length;
+	      for(i; i < len; i++) {
+	        try {
+	          elArray[i].classList.toggle(tClass);
+	        }
+	        catch (e) {
+	          throw e;
+	        }
+	      }
+	    }
+	  };
+	})();
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -349,22 +380,24 @@
 	 */
 	'use strict';
 	//Main JS File
-	var slideShow = __webpack_require__(5);
-	var slides = __webpack_require__(6);
+	const mySkills = {};
+	mySkills.sharedObjects = __webpack_require__(6);
+	var slideShow = __webpack_require__(7);
+	var slides = __webpack_require__(8);
 	var doAjax = __webpack_require__(2);
-	var pageScripts = __webpack_require__(7);
-	var pages = __webpack_require__(13);
-	var route = __webpack_require__(14)(pages, pageScripts);//(view, controller)
-	//Create object for globals
-	var app = {};
+	var pages = __webpack_require__(9);
+	mySkills.help = __webpack_require__(4);
+	var pageScripts = __webpack_require__(10)(mySkills);
+	var route = __webpack_require__(16)(pages, pageScripts);//(view, controller)
 
 	slideShow.loadImages(slides);
 	slideShow.swap();
 	slideShow.play(500);
-	const btnLogin = document.getElementById('btnLogin');
-	const btnLogOut = document.getElementById('btnLogOut');
-	checkForToken(btnLogOut, btnLogin);
-	//var mainContent = document.getElementById('main-content');
+	//load shared and dom objects
+	mySkills.sharedObjects.init();
+
+	checkForToken();
+
 	var header = document.getElementById('top');
 	//default view
 	route('#/current');
@@ -410,12 +443,10 @@
 	var btnMobileMenu = document.getElementById('btnMobileMenu');
 	var mobileMenu = document.getElementById('mobile-menu-items');
 	btnMobileMenu.addEventListener('click', function(){
-	  mobileMenu.classList.toggle('toggle-menu');
-	  btnMobileMenu.classList.toggle('toggle-menu');
+	  help.toggleClass([mobileMenu, btnMobileMenu], 'toggle-menu');
 	});
 	mobileMenu.addEventListener('click', function(e){
-	  mobileMenu.classList.toggle('toggle-menu');
-	  btnMobileMenu.classList.toggle('toggle-menu');
+	  help.toggleClass([mobileMenu, btnMobileMenu], 'toggle-menu');
 	});
 
 	function winready(f){
@@ -431,7 +462,7 @@
 	  }
 	}
 
-	function checkForToken(btnOff, btnOn){
+	function checkForToken(){
 	  const DRCToken = localStorage.getItem('DRCToken');
 	  if(DRCToken){
 	    doAjax.ajaxPostJson('/tokenAccess',{DRCToken: DRCToken}, function(err, data){
@@ -442,8 +473,7 @@
 	      else{ 
 	        console.log(data);
 	        console.log('token Exist use token for access');
-	        btnOff.classList.toggle('hide');
-	        btnOn.classList.toggle('hide');
+	        mySkills.help.toggleClass(mySkills.sharedObjects.toggleElements, 'hide');
 	      }
 	    });
 	  }
@@ -452,7 +482,46 @@
 	winready(firstDo());
 
 /***/ },
-/* 5 */
+/* 6 */
+/***/ function(module, exports) {
+
+	/**
+	 * sharedObjects
+	 * Created by dcorns on 3/20/16
+	 * Copyright © 2016 Dale Corns
+	 * Add all objects that are shared by multiple functions here. This will usually be dom objects that persist across views
+	 * Since I want to require at the top of module it uses an init function to run after the dom is loaded.
+	 */
+	'use strict';
+	module.exports = function(app){
+
+	  let sharedObjects = {
+	    init: function init(){
+	      getToggleElements(this.toggleElements);
+	    },
+	    toggleElements: []
+	  };
+	  if(app){
+	    if(typeof app === 'object' && app !== null){
+	      app.sharedObjects = sharedObjects;
+	      return app.sharedObjects;
+	    }
+	  }
+	  else{
+	    return sharedObjects;
+	  }
+	  
+	}();
+
+	function getToggleElements(ary){
+	  const btnLogin = document.getElementById('btnLogin');
+	  const btnLogOut = document.getElementById('btnLogOut');
+	  const btnProfile = document.getElementById('btnProfile');
+	  ary.push(btnLogin, btnLogOut, btnProfile);
+	}
+
+/***/ },
+/* 7 */
 /***/ function(module, exports) {
 
 	/**
@@ -513,7 +582,7 @@
 	}();
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports) {
 
 	/**
@@ -527,7 +596,14 @@
 	}();
 
 /***/ },
-/* 7 */
+/* 9 */
+/***/ function(module, exports) {
+
+	'use strict';
+	module.exports = {"aboutMe":"<h3>Journey To Software Development as a Profession</h3><p>I have always loved Technology and growing up I would disassemble things and sometimes put them back together again. I would work on cars with my Father and watch him work on old tube tv sets. (and I don\\'t mean just the cathode ray tube) When computers came out for the general public, I was fascinated and enjoyed spending hours making things with them. Writing little programs in BASIC to run on the television only to have them erased for lack of external storage. After high school I attended a technical college where I did micro processor programing using assembly code and loved it. I also learned more about electronics and have enjoyed building and experimenting around with circuits ever since. I started my career in IT back in 1981 when when IBM thought we would never need more than 64K of memory in a PC. I preferred writing software, but the jobs were more plentiful on the hardware side of things so I pursued and excelled as a hardware tech and network administrator, but I wrote software to support my efforts and those of my co-workers when possible. As the PC boom subsided I became more focused on small business network and PC support and in 2001 started my own business working for companies like Lockheed Martin and Snohomish County Washington. Just a few large clients kept me going pretty good for about seven years. It was during this time that I began to focus more on software. Creating opportunities with existing clients whenever I found a tool that they were using which I could enhance or write new tools when I saw a need. This required me to pick up some new languages quickly in order to provide something to customers at a reasonable price. In the meantime I was developing tools for my own business to help me stay on top of things. I began writing an entire service management system using .NET, C#, MSSQL and JavaScript. Since the application ran in a browser, I was able to access all aspects of the system from anywhere an Internet connection existed. It was a large undertaking and I would add functionality as I saw need, then moving on to some other aspect as that need became greater. For example I wrote modules for accounting, contact management, inventory, service tracking, asset management and whatever else could be helped through software. Unfortunately due to the size of this undertaking, I was never able to complete everything. There were some real cool features, but I kept bouncing around as needed so it never became a finished product. I would see a need and write the software to meet the need. This is really were I cut my teeth on building web application software. I think that what I produced was very unique and useful. Had I completed it, I believe it would have been a great success as a very useful tool for Technical service businesses everywhere. Sometimes I consider going back and continuing with the project, but there are so many new things to do every day. Like writing a time management app for the Windows phone. Yes I was working on and using that tool until Microsoft decided to move on to Windows 8 and required their phone developers to use Windows 8 on the desktop development machine in order to use the new tool kit. This discouraged me from moving forward writing for the Windows phone.</p><p>After this and writing custom native apps and services for clients I decided to take a full on plunge into the software industry as my primary career focus. In 2013 I graduated from the full stack JavaScript development accelerator/boot camp at Code Fellows in South Lake Union Seattle. There I learned how the industry works using agile methodologies and the tools being used by other professionals to collaborate and create scalable web applications using only JavaScript on the front and back end. Since then I have been taking Freelance work and teaching others how to do the same.</p><h4>Geography</h4><p>My Father was in the Air Force for the first 5 years of my life and then took on work in retail. So we moved a lot while I was growing up. I settled down in the Seattle area at around age 18, then went to work in the Los Angles area for about 5 years before moving back up to Seattle and have been here ever since.</p><h4>IT-less Passions</h4><p>At age 11 I wanted to be a magician and did one magic show where the neighbor hood kids were invited via radio station that did a free add for me. I grew up in church and by age 12 I was running the sound for a small church we attended and by that time had already sung a few solos and participated in choirs at the churches we attended. By age 14 I had learned to play the guitar and as a teen I began writing and performing my own songs. I have continued to sing and play guitar alone, and as a part of ensembles to this day. I have also experimented with keyboards and really like playing the trumpet when I have one. Back in the 1990\\'s I studied and performed classical guitar seriously for about five years. It was a lot of work and there was not as much opportunity to do it professionally compared to computer technology, so I abandoned it as a means of financial gain. But I am glad I did it. Music is awesome and will always be a part of my life. Fortunately both fields thrive on technical knowledge and creativity.</p><h4>Working Character</h4><p>I really like learning new things and getting better at anything I do. I do not like doing anything part of the way. I am always all in. As a consequence I have a very hard time giving up on anything I set out to do. This is good because I will work on a task undaunted by obstructions until all is achieved. On the other hand I could spend too much time getting no where on something, being unwilling to accept that I can not get it done. I believe that any thing worth doing is worth doing well. I also believe that more is accomplished with a group of people that have a common goal, than one person with passion and vision working on his/her own. So being able to infect others with one\\'s passion and vision is critical to bringing any large project to completion in a timely manner.</p>","accolades":"<h3>Accolades</h3>Accolades regarding my work can be found on my linkedin account. Additional comments may be left here if you submit and email.","current":"<h3>Current Activity</h3>\n<table id=\"tbl-activity\">\n    <tr>\n        <th>Activity</th><th>Start Date</th>\n    </tr>\n</table>","examples":"<h3>Work Examples</h3><p>Links to actual production sites to which I have contributed.</p><p>You\\'re looking at it</p>","login":"<h1>Login</h1>\n<input id=\"emailIn\" type=\"email\" required><label for=\"emailIn\">Enter email address</label>\n<input id=\"passwordIn\" type=\"password\" required><label for=\"passwordIn\">Enter Password</label>\n<button id=\"btnSubmitLogin\">GO</button><a href=\"#/register\">Request a Login</a>","logout":"<h1>Your Are Now Logged Out</h1>","posts":"<h3>Posts</h3>Links to or api generated content from where my posts are","projects":"<h3>Project List</h3>hopefully can be populated with Github api","register":"<h1>Account Sign Up</h1>\n<input id=\"emailIn\" type=\"email\" required><label for=\"emailIn\">Enter email address</label>\n<input id=\"passwordIn\" type=\"password\" required><label for=\"passwordIn\">Enter Password</label>\n<input id=\"confirmPassword\" type=\"password\" required><label for=\"confirmPassword\">Confirm Password</label>\n<button id=\"saveAccount\">SUBMIT</button>","skills":"<section id=\"job-skills\" class=\"job-skills\">\n    <h3 id=\"skHeader\">Languages, Frameworks and Libraries</h3>\n    <nav id=\"lang-fram-btns\"></nav><img id=\"btnreturn\" class=\"toggle-menu img-btn\" src=\"icon/return40.png\">\n    <article id=\"example-list\"></article>\n    <section><h3>IDE\\'s and Tools</h3>Sublime Text, Web Storm, Android Studio, Visual Studio, Grunt, Gulp</section>\n</section>"};
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -538,18 +614,18 @@
 	 */
 	'use strict';
 
-	module.exports = (function() {
+	module.exports = (function(app) {
 	  return{
-	    skills: __webpack_require__(8),
-	    current: __webpack_require__(9),
-	    login: __webpack_require__(10),
-	    register: __webpack_require__(11),
-	    logout: __webpack_require__(12)
+	    skills: __webpack_require__(11),
+	    current: __webpack_require__(12),
+	    login: __webpack_require__(13)(app),
+	    register: __webpack_require__(14)(app),
+	    logout: __webpack_require__(15)(app)
 	  }
 	})();
 
 /***/ },
-/* 8 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -609,7 +685,7 @@
 	}
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -658,7 +734,7 @@
 	}
 
 /***/ },
-/* 10 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -669,7 +745,7 @@
 	'use strict';
 	var doAjax = __webpack_require__(2);
 
-	module.exports = function login(){
+	module.exports = function login(app){
 	  var emailIn = document.getElementById('emailIn');
 	  var passwordIn = document.getElementById('passwordIn');
 	  var btnSubmitLogin = document.getElementById('btnSubmitLogin');
@@ -684,10 +760,7 @@
 	          window.location = '#/register';
 	        }
 	        else{
-	          const btnLogin = document.getElementById('btnLogin');
-	          const btnLogOut = document.getElementById('btnLogOut');
-	          btnLogOut.classList.toggle('hide');
-	          btnLogin.classList.toggle('hide');
+	          app.help.toggleClass(app.sharedObjects.toggleElements, 'hide');
 	          localStorage.setItem('DRCToken', data.token);
 	          window.location = '#/posts';
 	        }
@@ -696,7 +769,7 @@
 	};
 
 /***/ },
-/* 11 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -707,7 +780,7 @@
 	'use strict';
 	var doAjax = __webpack_require__(2);
 
-	module.exports = function register(){
+	module.exports = function register(app){
 	  var emailIn = document.getElementById('emailIn');
 	  var passwordIn = document.getElementById('passwordIn');
 	  var confirmPassword = document.getElementById('confirmPassword');
@@ -722,10 +795,7 @@
 	      doAjax.ajaxPostJson('/newAccount', {email: emailIn.value, password: passwordIn.value}, function(err, data){
 	        if(err) alert('Account Creation Failed: ' + err);
 	        else{
-	          const btnLogin = document.getElementById('btnLogin');
-	          const btnLogOut = document.getElementById('btnLogOut');
-	          btnLogOut.classList.toggle('hide');
-	          btnLogin.classList.toggle('hide');
+	          app.help.toggleClass(app.sharedObjects.toggleElements, 'hide');
 	          sessionStorage.removeItem('email');
 	          localStorage.setItem('DRCToken', data.token);
 	          window.location = '#/posts';
@@ -736,7 +806,7 @@
 	};
 
 /***/ },
-/* 12 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
@@ -745,28 +815,18 @@
 	 * Copyright © 2016 Dale Corns
 	 */
 	'use strict';
-	module.exports = function logout(){
+	module.exports = function logout(app){
 	  window.localStorage.removeItem('DRCToken');
 	  if(window.localStorage.getItem('DRCToken')){
 	    alert('Token failed deletion, delete DRCToken manually from localStorage to logout!');
 	  }
 	  else{
-	    const btnLogin = document.getElementById('btnLogin');
-	    const btnLogOut = document.getElementById('btnLogOut');
-	    btnLogOut.classList.toggle('hide');
-	    btnLogin.classList.toggle('hide');
+	    app.help.toggleClass(app.sharedObjects.toggleElements, 'hide');
 	  }
 	};
 
 /***/ },
-/* 13 */
-/***/ function(module, exports) {
-
-	'use strict';
-	module.exports = {"aboutMe":"<h3>Journey To Software Development as a Profession</h3><p>I have always loved Technology and growing up I would disassemble things and sometimes put them back together again. I would work on cars with my Father and watch him work on old tube tv sets. (and I don\\'t mean just the cathode ray tube) When computers came out for the general public, I was fascinated and enjoyed spending hours making things with them. Writing little programs in BASIC to run on the television only to have them erased for lack of external storage. After high school I attended a technical college where I did micro processor programing using assembly code and loved it. I also learned more about electronics and have enjoyed building and experimenting around with circuits ever since. I started my career in IT back in 1981 when when IBM thought we would never need more than 64K of memory in a PC. I preferred writing software, but the jobs were more plentiful on the hardware side of things so I pursued and excelled as a hardware tech and network administrator, but I wrote software to support my efforts and those of my co-workers when possible. As the PC boom subsided I became more focused on small business network and PC support and in 2001 started my own business working for companies like Lockheed Martin and Snohomish County Washington. Just a few large clients kept me going pretty good for about seven years. It was during this time that I began to focus more on software. Creating opportunities with existing clients whenever I found a tool that they were using which I could enhance or write new tools when I saw a need. This required me to pick up some new languages quickly in order to provide something to customers at a reasonable price. In the meantime I was developing tools for my own business to help me stay on top of things. I began writing an entire service management system using .NET, C#, MSSQL and JavaScript. Since the application ran in a browser, I was able to access all aspects of the system from anywhere an Internet connection existed. It was a large undertaking and I would add functionality as I saw need, then moving on to some other aspect as that need became greater. For example I wrote modules for accounting, contact management, inventory, service tracking, asset management and whatever else could be helped through software. Unfortunately due to the size of this undertaking, I was never able to complete everything. There were some real cool features, but I kept bouncing around as needed so it never became a finished product. I would see a need and write the software to meet the need. This is really were I cut my teeth on building web application software. I think that what I produced was very unique and useful. Had I completed it, I believe it would have been a great success as a very useful tool for Technical service businesses everywhere. Sometimes I consider going back and continuing with the project, but there are so many new things to do every day. Like writing a time management app for the Windows phone. Yes I was working on and using that tool until Microsoft decided to move on to Windows 8 and required their phone developers to use Windows 8 on the desktop development machine in order to use the new tool kit. This discouraged me from moving forward writing for the Windows phone.</p><p>After this and writing custom native apps and services for clients I decided to take a full on plunge into the software industry as my primary career focus. In 2013 I graduated from the full stack JavaScript development accelerator/boot camp at Code Fellows in South Lake Union Seattle. There I learned how the industry works using agile methodologies and the tools being used by other professionals to collaborate and create scalable web applications using only JavaScript on the front and back end. Since then I have been taking Freelance work and teaching others how to do the same.</p><h4>Geography</h4><p>My Father was in the Air Force for the first 5 years of my life and then took on work in retail. So we moved a lot while I was growing up. I settled down in the Seattle area at around age 18, then went to work in the Los Angles area for about 5 years before moving back up to Seattle and have been here ever since.</p><h4>IT-less Passions</h4><p>At age 11 I wanted to be a magician and did one magic show where the neighbor hood kids were invited via radio station that did a free add for me. I grew up in church and by age 12 I was running the sound for a small church we attended and by that time had already sung a few solos and participated in choirs at the churches we attended. By age 14 I had learned to play the guitar and as a teen I began writing and performing my own songs. I have continued to sing and play guitar alone, and as a part of ensembles to this day. I have also experimented with keyboards and really like playing the trumpet when I have one. Back in the 1990\\'s I studied and performed classical guitar seriously for about five years. It was a lot of work and there was not as much opportunity to do it professionally compared to computer technology, so I abandoned it as a means of financial gain. But I am glad I did it. Music is awesome and will always be a part of my life. Fortunately both fields thrive on technical knowledge and creativity.</p><h4>Working Character</h4><p>I really like learning new things and getting better at anything I do. I do not like doing anything part of the way. I am always all in. As a consequence I have a very hard time giving up on anything I set out to do. This is good because I will work on a task undaunted by obstructions until all is achieved. On the other hand I could spend too much time getting no where on something, being unwilling to accept that I can not get it done. I believe that any thing worth doing is worth doing well. I also believe that more is accomplished with a group of people that have a common goal, than one person with passion and vision working on his/her own. So being able to infect others with one\\'s passion and vision is critical to bringing any large project to completion in a timely manner.</p>","accolades":"<h3>Accolades</h3>Accolades regarding my work can be found on my linkedin account. Additional comments may be left here if you submit and email.","current":"<h3>Current Activity</h3>\n<table id=\"tbl-activity\">\n    <tr>\n        <th>Activity</th><th>Start Date</th>\n    </tr>\n</table>","examples":"<h3>Work Examples</h3><p>Links to actual production sites to which I have contributed.</p><p>You\\'re looking at it</p>","login":"<h1>Login</h1>\n<input id=\"emailIn\" type=\"email\" required><label for=\"emailIn\">Enter email address</label>\n<input id=\"passwordIn\" type=\"password\" required><label for=\"passwordIn\">Enter Password</label>\n<button id=\"btnSubmitLogin\">GO</button><a href=\"#/register\">Request a Login</a>","logout":"<h1>Your Are Now Logged Out</h1>","posts":"<h3>Posts</h3>Links to or api generated content from where my posts are","projects":"<h3>Project List</h3>hopefully can be populated with Github api","register":"<h1>Account Sign Up</h1>\n<input id=\"emailIn\" type=\"email\" required><label for=\"emailIn\">Enter email address</label>\n<input id=\"passwordIn\" type=\"password\" required><label for=\"passwordIn\">Enter Password</label>\n<input id=\"confirmPassword\" type=\"password\" required><label for=\"confirmPassword\">Confirm Password</label>\n<button id=\"saveAccount\">SUBMIT</button>","skills":"<section id=\"job-skills\" class=\"job-skills\">\n    <h3 id=\"skHeader\">Languages, Frameworks and Libraries</h3>\n    <nav id=\"lang-fram-btns\"></nav><img id=\"btnreturn\" class=\"toggle-menu img-btn\" src=\"icon/return40.png\">\n    <article id=\"example-list\"></article>\n    <section><h3>IDE\\'s and Tools</h3>Sublime Text, Web Storm, Android Studio, Visual Studio, Grunt, Gulp</section>\n</section>"};
-
-/***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
 	/**
@@ -788,7 +848,7 @@
 	};
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/**
@@ -817,7 +877,7 @@
 
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports) {
 
 	/**

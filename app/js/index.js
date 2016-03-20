@@ -11,9 +11,7 @@ var doAjax = require('do-ajax');
 var pageScripts = require('./pageScripts');
 var pages = require('./build/views');
 var route = require('./viewRouter')(pages, pageScripts);//(view, controller)
-//Create object for globals
-var app = {};
-
+var help = require('./helperMethods');
 slideShow.loadImages(slides);
 slideShow.swap();
 slideShow.play(500);
@@ -66,12 +64,10 @@ function firstDo(){
 var btnMobileMenu = document.getElementById('btnMobileMenu');
 var mobileMenu = document.getElementById('mobile-menu-items');
 btnMobileMenu.addEventListener('click', function(){
-  mobileMenu.classList.toggle('toggle-menu');
-  btnMobileMenu.classList.toggle('toggle-menu');
+  help.toggleClass([mobileMenu, btnMobileMenu], 'toggle-menu');
 });
 mobileMenu.addEventListener('click', function(e){
-  mobileMenu.classList.toggle('toggle-menu');
-  btnMobileMenu.classList.toggle('toggle-menu');
+  help.toggleClass([mobileMenu, btnMobileMenu], 'toggle-menu');
 });
 
 function winready(f){
@@ -98,8 +94,7 @@ function checkForToken(btnOff, btnOn){
       else{ 
         console.log(data);
         console.log('token Exist use token for access');
-        btnOff.classList.toggle('hide');
-        btnOn.classList.toggle('hide');
+        help.toggleClass([btnOff, btnOn], 'hide');
       }
     });
   }

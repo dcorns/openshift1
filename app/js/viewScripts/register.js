@@ -5,6 +5,7 @@
  */
 'use strict';
 var doAjax = require('do-ajax');
+var help = require('../helperMethods');
 
 module.exports = function register(){
   var emailIn = document.getElementById('emailIn');
@@ -23,8 +24,7 @@ module.exports = function register(){
         else{
           const btnLogin = document.getElementById('btnLogin');
           const btnLogOut = document.getElementById('btnLogOut');
-          btnLogOut.classList.toggle('hide');
-          btnLogin.classList.toggle('hide');
+          help.toggleClass([btnLogOut, btnLogin], 'hide');
           sessionStorage.removeItem('email');
           localStorage.setItem('DRCToken', data.token);
           window.location = '#/posts';

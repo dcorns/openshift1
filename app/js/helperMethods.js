@@ -4,7 +4,7 @@
  * Copyright © 2016 Dale Corns
  */
 'use strict';
-module.exports = function(){
+module.exports = (function(){
   return{
     //Take an array of elements and toggles the given class
     toggleClass: function toggleClass(elArray, tClass){
@@ -21,4 +21,4 @@ module.exports = function(){
       }
     }
   };
-};
+})();

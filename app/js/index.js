@@ -12,8 +12,8 @@ var slides = require('./models/slides');
 var doAjax = require('do-ajax');
 var pages = require('./build/views');
 mySkills.help = require('./helperMethods');
-var pageScripts = require('./pageScripts')(mySkills);
-var route = require('./viewRouter')(pages, pageScripts);//(view, controller)
+var pageScripts = require('./pageScripts');
+var route = require('./viewRouter')(pages, pageScripts, mySkills);//(view, controller)
 
 slideShow.loadImages(slides);
 slideShow.swap();

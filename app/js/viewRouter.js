@@ -4,13 +4,13 @@
  * takes in a view object like the one created with grunt-add-view and if it has javascript file by the same name in the controllers object, it will run it.
  */
 'use strict';
-module.exports = function(views, controllers){
+module.exports = function(views, controllers, app){
   function loadRoute(route, pEl){
     var el = pEl || 'main-content';
     var view = route.substr(route.lastIndexOf('/') + 1);
     document.getElementById(el).innerHTML = views[view];
     if(controllers[view]){
-      controllers[view]();
+      controllers[view](app);
     }
   }
   return loadRoute;

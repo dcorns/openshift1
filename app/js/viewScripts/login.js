@@ -1,5 +1,5 @@
 /**
- * createAccount
+ * login
  * Created by dcorns on 3/8/16
  * Copyright © 2016 Dale Corns
  */
@@ -7,6 +7,7 @@
 var doAjax = require('do-ajax');
 
 module.exports = function login(app){
+  console.dir(app);
   var emailIn = document.getElementById('emailIn');
   var passwordIn = document.getElementById('passwordIn');
   var btnSubmitLogin = document.getElementById('btnSubmitLogin');

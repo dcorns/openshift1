@@ -387,8 +387,8 @@
 	var doAjax = __webpack_require__(2);
 	var pages = __webpack_require__(9);
 	mySkills.help = __webpack_require__(4);
-	var pageScripts = __webpack_require__(10)(mySkills);
-	var route = __webpack_require__(16)(pages, pageScripts);//(view, controller)
+	var pageScripts = __webpack_require__(10);
+	var route = __webpack_require__(16)(pages, pageScripts, mySkills);//(view, controller)
 
 	slideShow.loadImages(slides);
 	slideShow.swap();
@@ -614,13 +614,13 @@
 	 */
 	'use strict';
 
-	module.exports = (function(app) {
+	module.exports = (function() {
 	  return{
 	    skills: __webpack_require__(11),
 	    current: __webpack_require__(12),
-	    login: __webpack_require__(13)(app),
-	    register: __webpack_require__(14)(app),
-	    logout: __webpack_require__(15)(app)
+	    login: __webpack_require__(13),
+	    register: __webpack_require__(14),
+	    logout: __webpack_require__(15)
 	  }
 	})();
 
@@ -738,7 +738,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * createAccount
+	 * login
 	 * Created by dcorns on 3/8/16
 	 * Copyright © 2016 Dale Corns
 	 */
@@ -746,6 +746,7 @@
 	var doAjax = __webpack_require__(2);
 
 	module.exports = function login(app){
+	  console.dir(app);
 	  var emailIn = document.getElementById('emailIn');
 	  var passwordIn = document.getElementById('passwordIn');
 	  var btnSubmitLogin = document.getElementById('btnSubmitLogin');
@@ -835,13 +836,13 @@
 	 * takes in a view object like the one created with grunt-add-view and if it has javascript file by the same name in the controllers object, it will run it.
 	 */
 	'use strict';
-	module.exports = function(views, controllers){
+	module.exports = function(views, controllers, app){
 	  function loadRoute(route, pEl){
 	    var el = pEl || 'main-content';
 	    var view = route.substr(route.lastIndexOf('/') + 1);
 	    document.getElementById(el).innerHTML = views[view];
 	    if(controllers[view]){
-	      controllers[view]();
+	      controllers[view](app);
 	    }
 	  }
 	  return loadRoute;

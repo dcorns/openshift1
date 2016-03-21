@@ -6,12 +6,12 @@
  */
 'use strict';
 
-module.exports = (function(app) {
+module.exports = (function() {
   return{
     skills: require('./viewScripts/skills'),
     current: require('./viewScripts/current'),
-    login: require('./viewScripts/login')(app),
-    register: require('./viewScripts/register')(app),
-    logout: require('./viewScripts/logout')(app)
+    login: require('./viewScripts/login'),
+    register: require('./viewScripts/register'),
+    logout: require('./viewScripts/logout')
   }
 })();

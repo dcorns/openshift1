@@ -12,6 +12,7 @@ module.exports = (function() {
     current: require('./viewScripts/current'),
     login: require('./viewScripts/login'),
     register: require('./viewScripts/register'),
-    logout: require('./viewScripts/logout')
+    logout: require('./viewScripts/logout'),
+    profile: require('./viewScripts/profile')
   }
 })();

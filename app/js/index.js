@@ -36,14 +36,12 @@ function firstDo(){
   var lastHref = window.sessionStorage.getItem('href');
   var netAction = window.sessionStorage.getItem('netAction');
   if (lastHref) {
-    //dgApp.loadRoute(lastHref);
     route(lastHref);
   }
   else {//load home template
     lastHref = '#/current';
     window.sessionStorage.setItem('href', lastHref);
     window.history.pushState(null, null, lastHref);
-    //dgApp.loadRoute(lastHref);
     route(lastHref);
   }
   //Add event handlers for 'a' tags

@@ -7,13 +7,11 @@
 var doAjax = require('do-ajax');
 
 module.exports = function login(app){
-  console.dir(app);
   var emailIn = document.getElementById('emailIn');
   var passwordIn = document.getElementById('passwordIn');
   var btnSubmitLogin = document.getElementById('btnSubmitLogin');
 
   btnSubmitLogin.addEventListener('click', function(){
-    console.log('btnLogin Clicked');
       doAjax.ajaxPostJson('/login', {email: emailIn.value, password: passwordIn.value}, function(err, data){
         if(err){
           alert('Login Failed: ' + err);

@@ -7,6 +7,7 @@
 var restify     = require('restify'),
   corngoose   = require('corngoose'),
   auth = require('cornorize');
+const secret = process.env.DRCAUTH;
 
 module.exports = function(app){
   app.get('/status', function (req, res, next)
@@ -143,6 +144,70 @@ module.exports = function(app){
       res.send({error: 'Invalid Token'});
     }
   });
+
+  app.get('/myProfile', function(req, res, next){
+    res.contentType = 'json';
+    const token = req.headers.authorization;
+    let access = auth.decodeToken(token, secret);
+    //access = {resources, {email,acessLevel,tokenAddress}, expires}
+    corngoose.dbDocFind({email:access.resources.email}, 'users', function(err, data){
+      if(err) {
+        playErr(res, err);
+      }
+      else{
+        //check for profile data
+        if('profileId' in data){
+          corngoose.dbDocFind({profileId: data.profileId}, 'profiles', function(err, data){
+            if(err){
+              playErr(res, err);
+            }
+            else{
+              res.status(200);
+              res.send(data[0]);
+            }
+          })
+        }
+        else{
+          //create new data collection
+          corngoose.getCollection('profiles', function(err, data){
+            if(err){
+              playErr(res, err);
+            }
+            else{
+              let profileId = 'profile' + data.length;
+              let profile = {
+                profileId: profileId,
+                about: {},
+                current: [],
+                examples: [],
+                repos: [],
+                posts: [],
+                projects: [],
+                externalLinks: {},
+                competencies: {technologies:[], specifics:[], tools:[]}
+              };
+              corngoose.dbDocInsert({profileId: profileId}, profile, 'profiles', function(err, pData){
+                if(err){
+                  playErr(res, err);
+                }
+                else{
+                  corngoose.dbDocUpdate({email: access.resources.email}, {profileId: profileId}, 'users', function(err, data){
+                    if(err){
+                      playErr(res, err);
+                    }
+                    else{
+                      res.status(200);
+                      res.send(pData);
+                    }
+                  })
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+  });
 };
 
 function playErr(res, err){
@@ -151,3 +216,4 @@ function playErr(res, err){
   res.contentType = 'json';
   res.send(err);
 }
+

@@ -79,8 +79,8 @@
 	var doAjax = __webpack_require__(2);
 	module.exports = function clientRoutes(){
 	  return{
-	    getData: function(path, cb){
-	      doAjax.ajaxGetJson('/' + path, function(err,data){
+	    getData: function(path, cb, token){
+	      doAjax.ajaxGetJson('/' + path, function(err, data){
 	        if(err){
 	          if(!(window.localStorage.getItem(path))) cb(err, null);
 	          else cb(null, JSON.parse(window.localStorage.getItem(path)));
@@ -89,7 +89,7 @@
 	          window.localStorage.setItem(path, JSON.stringify(data));
 	          cb(null, data);
 	        }
-	      });
+	      }, token);
 	    }
 	  };
 	};
@@ -386,6 +386,7 @@
 	var slideShow = __webpack_require__(7);
 	var slides = __webpack_require__(8);
 	var doAjax = __webpack_require__(2);
+	mySkills.ajax = doAjax;
 	var pages = __webpack_require__(9);
 	mySkills.help = __webpack_require__(4);
 	var pageScripts = __webpack_require__(10);
@@ -620,7 +621,7 @@
 	    login: __webpack_require__(13),
 	    register: __webpack_require__(14),
 	    logout: __webpack_require__(15),
-	    profile: __webpack_require__(16)
+	    myProfile: __webpack_require__(16)
 	  }
 	})();
 
@@ -826,16 +827,30 @@
 
 /***/ },
 /* 16 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * profile
+	 * myProfile
 	 * Created by dcorns on 3/21/16
 	 * Copyright © 2016 Dale Corns
+	 * Provides for individual profile data updating.
 	 */
 	'use strict';
-	module.exports = function(){
-	  alert('Welcome to the profile view');
+	var route = __webpack_require__(1)();
+	module.exports = function myProfile(app){
+	  var myData;
+	  //check for existing profile data and load if it exists
+	  let token = window.localStorage.getItem('DRCToken');
+	  route.getData('myProfile', function(err, data){
+	    if(err){
+	      alert('No profile data found locally. Internet required to load profile data.');
+	    }
+	    else{
+	      myData = data;
+	      console.dir('myData: ' + myData);
+	    }
+
+	  }, token);
 	};
 
 /***/ },

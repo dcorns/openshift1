@@ -10,6 +10,7 @@ mySkills.sharedObjects = require('./sharedObjects');
 var slideShow = require('./slideShow');
 var slides = require('./models/slides');
 var doAjax = require('do-ajax');
+mySkills.ajax = doAjax;
 var pages = require('./build/views');
 mySkills.help = require('./helperMethods');
 var pageScripts = require('./pageScripts');

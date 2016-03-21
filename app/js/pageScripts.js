@@ -13,6 +13,6 @@ module.exports = (function() {
     login: require('./viewScripts/login'),
     register: require('./viewScripts/register'),
     logout: require('./viewScripts/logout'),
-    profile: require('./viewScripts/myProfile')
+    myProfile: require('./viewScripts/myProfile')
   }
 })();

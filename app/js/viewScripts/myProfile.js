@@ -16,7 +16,7 @@ module.exports = function myProfile(app){
     }
     else{
       myData = data;
-      console.dir('myData: ' + myData);
+      console.dir(myData);
     }
 
   }, token);

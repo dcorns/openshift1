@@ -1,3 +1,20 @@
+# MySkills
+A web app for showcasing skills and finding talent
+
+### Build
+App uses ES6, CSS4, HTML5, WebPack, and grunt-add-view. ES6 has been limited to current browser support to avoid use of poly fills.
+#### Build Steps
+grunt--- build views
+gulp build-css:prod--- trans-pile css4 into css3
+gulp webpack:prod--- combine JavaScript modules into bundle.js
+
+### Client Routing
+Client side routing is controlled by intercepting the default behavior for anchor tags using the firstDo function in index.js. Using window.history and local storage, refresh, prev, and back buttons are properly mapped to the correct views. The loadView function in viewRouter is used to change views and load the views corresponding script if it has one. View scripts are registered in pageScript.js.
+
+### Shared Objects
+Properties and methods that are required by multiple views are provied by sharedObjects.js and helperMethods.js. The methods and objects available in these files are passed around via the mySkills object created in index.js.
+
+### OpenShift Deployment
 Node.js on OpenShift
 ====================================================================
 This package includes a dynamic Node.js build stage that will provide your application with a customized Node.js runtime.

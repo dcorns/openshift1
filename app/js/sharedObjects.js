@@ -8,7 +8,7 @@
 'use strict';
 module.exports = function(app){
 
-  let sharedObjects = {
+  var sharedObjects = {
     init: function init(){
       getToggleElements(this.toggleElements);
     },
@@ -27,8 +27,8 @@ module.exports = function(app){
 }();
 
 function getToggleElements(ary){
-  const btnLogin = document.getElementById('btnLogin');
-  const btnLogOut = document.getElementById('btnLogOut');
-  const btnProfile = document.getElementById('btnProfile');
+  var btnLogin = document.getElementById('btnLogin');
+  var btnLogOut = document.getElementById('btnLogOut');
+  var btnProfile = document.getElementById('btnProfile');
   ary.push(btnLogin, btnLogOut, btnProfile);
 }

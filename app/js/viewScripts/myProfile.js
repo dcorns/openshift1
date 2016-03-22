@@ -6,10 +6,13 @@
  */
 'use strict';
 var route = require('../clientRoutes')();
+var pages = require('../build/views');
+var pageScripts = require('../pageScripts');
+var viewRouter = require('../viewRouter')(pages, pageScripts);
 module.exports = function myProfile(app){
   var myData;
   //check for existing profile data and load if it exists
-  let token = window.localStorage.getItem('DRCToken');
+  var token = window.localStorage.getItem('DRCToken');
   route.getData('myProfile', function(err, data){
     if(err){
       alert('No profile data found locally. Internet required to load profile data.');
@@ -20,4 +23,24 @@ module.exports = function myProfile(app){
     }
 
   }, token);
+  
+  var btnAbout = getById('btnAbout');
+  var btnCurrent = getById('btnCurrent');
+  var btnExamples = getById('btnExamples');
+  var btnRepos = getById('btnRepos');
+  var btnPosts = getById('btnPosts');
+  var btnProjects = getById('btnProjects');
+  var btnExternalLinks = getById('btnExternalLinks');
+  var btnCompetencies = getById('btnCompetencies');
+  var subContent = getById('profile-content');
+  console.dir(btnAbout);
+  
+  
+  function getById(btnId){
+    return document.getElementById(btnId);
+  }
+  btnAbout.addEventListener('click', function(){
+    console.log('btnAbout clicked');
+    //viewRouter.loadRoute('#/profileAboutMe', subContent);
+  });
 };

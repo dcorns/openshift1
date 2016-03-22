@@ -23,14 +23,14 @@ module.exports = function myProfile(app){
     }
 
   }, token);
-  var btnAbout = getById('btnAboutMe');
-  var btnCurrent = getById('btnCurrent');
-  var btnExamples = getById('btnExamples');
-  var btnRepos = getById('btnRepos');
-  var btnPosts = getById('btnPosts');
-  var btnProjects = getById('btnProjects');
-  var btnExternalLinks = getById('btnExternalLinks');
-  var btnCompetencies = getById('btnCompetencies');
+  var btnAbout = getById('btnaboutme');
+  var btnCurrent = getById('btncurrent');
+  var btnExamples = getById('btnexamples');
+  var btnRepos = getById('btnrepos');
+  var btnPosts = getById('btnposts');
+  var btnProjects = getById('btnprojects');
+  var btnExternalLinks = getById('btnexternallinks');
+  var btnCompetencies = getById('btncompetencies');
   
   btnAbout.addEventListener('click', function(){
     viewRouter('#/profileAboutMe', 'profile-content');
@@ -38,24 +38,25 @@ module.exports = function myProfile(app){
   btnCurrent.addEventListener('click', function(){
     viewRouter('#/profileCurrent', 'profile-content');
   });
-  btnCurrent.addEventListener('click', function(){
+  btnExamples.addEventListener('click', function(){
     viewRouter('#/profileExamples', 'profile-content');
   });
-  btnCurrent.addEventListener('click', function(){
+  btnRepos.addEventListener('click', function(){
     viewRouter('#/profileRepos', 'profile-content');
   });
-  btnCurrent.addEventListener('click', function(){
+  btnPosts.addEventListener('click', function(){
     viewRouter('#/profilePosts', 'profile-content');
   });
-  btnCurrent.addEventListener('click', function(){
+  btnProjects.addEventListener('click', function(){
     viewRouter('#/profileProjects', 'profile-content');
   });
-  btnCurrent.addEventListener('click', function(){
+  btnExternalLinks.addEventListener('click', function(){
     viewRouter('#/profileExternalLinks', 'profile-content');
   });
-  btnCurrent.addEventListener('click', function(){
+  btnCompetencies.addEventListener('click', function(){
     viewRouter('#/profileCompetencies', 'profile-content');
   });
+  
   function getById(btnId){
     return document.getElementById(btnId);
   }

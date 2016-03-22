@@ -23,8 +23,7 @@ module.exports = function myProfile(app){
     }
 
   }, token);
-  
-  var btnAbout = getById('btnAbout');
+  var btnAbout = getById('btnAboutMe');
   var btnCurrent = getById('btnCurrent');
   var btnExamples = getById('btnExamples');
   var btnRepos = getById('btnRepos');
@@ -32,15 +31,33 @@ module.exports = function myProfile(app){
   var btnProjects = getById('btnProjects');
   var btnExternalLinks = getById('btnExternalLinks');
   var btnCompetencies = getById('btnCompetencies');
-  var subContent = getById('profile-content');
-  console.dir(btnAbout);
   
-  
+  btnAbout.addEventListener('click', function(){
+    viewRouter('#/profileAboutMe', 'profile-content');
+  });
+  btnCurrent.addEventListener('click', function(){
+    viewRouter('#/profileCurrent', 'profile-content');
+  });
+  btnCurrent.addEventListener('click', function(){
+    viewRouter('#/profileExamples', 'profile-content');
+  });
+  btnCurrent.addEventListener('click', function(){
+    viewRouter('#/profileRepos', 'profile-content');
+  });
+  btnCurrent.addEventListener('click', function(){
+    viewRouter('#/profilePosts', 'profile-content');
+  });
+  btnCurrent.addEventListener('click', function(){
+    viewRouter('#/profileProjects', 'profile-content');
+  });
+  btnCurrent.addEventListener('click', function(){
+    viewRouter('#/profileExternalLinks', 'profile-content');
+  });
+  btnCurrent.addEventListener('click', function(){
+    viewRouter('#/profileCompetencies', 'profile-content');
+  });
   function getById(btnId){
     return document.getElementById(btnId);
   }
-  btnAbout.addEventListener('click', function(){
-    console.log('btnAbout clicked');
-    //viewRouter.loadRoute('#/profileAboutMe', subContent);
-  });
+  
 };

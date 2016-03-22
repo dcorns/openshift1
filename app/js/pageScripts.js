@@ -6,7 +6,7 @@
  */
 'use strict';
 
-module.exports = (function() {
+module.exports = (function pageScripts() {
   return{
     skills: require('./viewScripts/skills'),
     current: require('./viewScripts/current'),

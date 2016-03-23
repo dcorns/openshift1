@@ -5,7 +5,8 @@
  */
 'use strict';
 module.exports = function logout(app){
-  window.localStorage.removeItem('DRCToken');
+  //window.localStorage.removeItem('DRCToken');
+  window.localStorage.clear();
   if(window.localStorage.getItem('DRCToken')){
     alert('Token failed deletion, delete DRCToken manually from localStorage to logout!');
   }

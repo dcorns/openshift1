@@ -816,7 +816,8 @@
 	 */
 	'use strict';
 	module.exports = function logout(app){
-	  window.localStorage.removeItem('DRCToken');
+	  //window.localStorage.removeItem('DRCToken');
+	  window.localStorage.clear();
 	  if(window.localStorage.getItem('DRCToken')){
 	    alert('Token failed deletion, delete DRCToken manually from localStorage to logout!');
 	  }
@@ -846,7 +847,7 @@
 	  var token = window.localStorage.getItem('DRCToken');
 	  route.getData('myProfile', function(err, data){
 	    if(err){
-	      alert('No profile data found locally. Internet required to load profile data.');
+	      alert('No profile data found locally. Internet required to load profile data. Or you are not authorized for a profile account');
 	    }
 	    else{
 	      myData = data;

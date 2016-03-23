@@ -60,6 +60,7 @@
 	__webpack_require__(13);
 	__webpack_require__(15);
 	__webpack_require__(16);
+	__webpack_require__(20);
 	__webpack_require__(14);
 	module.exports = __webpack_require__(11);
 
@@ -968,6 +969,26 @@
 	  QTCreator: [''],
 	  gulp: [{filename: 'gulpfile.js', repoID: 0}],
 	  grunt: ['']
+	};
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	/**
+	 * profileAboutMe
+	 * Created by dcorns on 3/22/16
+	 * Copyright © 2016 Dale Corns
+	 */
+	'use strict';
+	module.exports = function(){
+	  var vm = {
+	    abtm: ko.observable()
+	  };
+
+	  vm.abtm = myData.about;
+	  ko.applyBindings(vm);
+
 	};
 
 /***/ }

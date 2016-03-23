@@ -15,7 +15,7 @@ module.exports = function myProfile(app){
   var token = window.localStorage.getItem('DRCToken');
   route.getData('myProfile', function(err, data){
     if(err){
-      alert('No profile data found locally. Internet required to load profile data.');
+      alert('No profile data found locally. Internet required to load profile data. Or you are not authorized for a profile account');
     }
     else{
       myData = data;
@@ -34,6 +34,7 @@ module.exports = function myProfile(app){
   
   btnAbout.addEventListener('click', function(){
     viewRouter('#/profileAboutMe', 'profile-content');
+    aboutMeControl();
   });
   btnCurrent.addEventListener('click', function(){
     viewRouter('#/profileCurrent', 'profile-content');
@@ -60,5 +61,7 @@ module.exports = function myProfile(app){
   function getById(btnId){
     return document.getElementById(btnId);
   }
-  
+  function aboutMeControl(){
+    alert('aboutMe');
+  }
 };

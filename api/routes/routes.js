@@ -148,65 +148,72 @@ module.exports = function(app){
   app.get('/myProfile', function(req, res, next){
     res.contentType = 'json';
     const token = req.headers.authorization;
-    let access = auth.decodeToken(token, secret);
+    var access = auth.decodeToken(token, secret);
     //access = {resources, {email,acessLevel,tokenAddress}, expires}
-    corngoose.dbDocFind({email:access.resources.email}, 'users', function(err, data){
-      if(err) {
-        playErr(res, err);
-      }
-      else{
-        //check for profile data
-        if('profileId' in data){
-          corngoose.dbDocFind({profileId: data.profileId}, 'profiles', function(err, data){
-            if(err){
-              playErr(res, err);
-            }
-            else{
-              res.status(200);
-              res.send(data[0]);
-            }
-          })
+    if(resources.accessLevel !== 'user' && resources.accessLevel !== 'recruiter' ){
+      corngoose.dbDocFind({email:access.resources.email}, 'users', function(err, data){
+        if(err) {
+          playErr(res, err);
         }
         else{
-          //create new data collection
-          corngoose.getCollection('profiles', function(err, data){
-            if(err){
-              playErr(res, err);
-            }
-            else{
-              let profileId = 'profile' + data.length;
-              let profile = {
-                profileId: profileId,
-                about: {},
-                current: [],
-                examples: [],
-                repos: [],
-                posts: [],
-                projects: [],
-                externalLinks: {},
-                competencies: {technologies:[], specifics:[], tools:[]}
-              };
-              corngoose.dbDocInsert({profileId: profileId}, profile, 'profiles', function(err, pData){
-                if(err){
-                  playErr(res, err);
-                }
-                else{
-                  corngoose.dbDocUpdate({email: access.resources.email}, {profileId: profileId}, 'users', function(err, data){
-                    if(err){
-                      playErr(res, err);
-                    }
-                    else{
-                      res.status(200);
-                      res.send(pData);
-                    }
-                  })
-                }
-              });
-            }
-          });
+          //check for profile data
+          if('profileId' in data[0]){
+            corngoose.dbDocFind({profileId: data[0].profileId}, 'profiles', function(err, data){
+              if(err){
+                playErr(res, err);
+              }
+              else{
+                res.status(200);
+                res.send(data[0]);
+              }
+            })
+          }
+          else{
+            //create new data collection
+            corngoose.getCollection('profiles', function(err, data){
+              if(err){
+                playErr(res, err);
+              }
+              else{
+                var profileId = 'profile' + data.length;
+                var profile = {
+                  profileId: profileId,
+                  about: {},
+                  current: [],
+                  examples: [],
+                  repos: [],
+                  posts: [],
+                  projects: [],
+                  externalLinks: {},
+                  competencies: {technologies:[], specifics:[], tools:[]}
+                };
+                corngoose.dbDocInsert({profileId: profileId}, profile, 'profiles', function(err, pData){
+                  if(err){
+                    playErr(res, err);
+                  }
+                  else{
+                    corngoose.dbDocUpdate({email: access.resources.email}, {profileId: profileId}, 'users', function(err, data){
+                      if(err){
+                        playErr(res, err);
+                      }
+                      else{
+                        res.status(200);
+                        res.send(pData);
+                      }
+                    })
+                  }
+                });
+              }
+            });
+          }
         }
-      }
-    });
+      });
+    }
+    else{
+      res.status(401);
+      res.send({});
+    }
+
   });
 };
 

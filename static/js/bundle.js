@@ -849,6 +849,7 @@
 	  route.getData('myProfile', function(err, data){
 	    if(err){
 	      alert('No profile data found locally. Internet required to load profile data. Or you are not authorized for a profile account');
+	      window.location = '#/current';
 	    }
 	    else{
 	      myData = data;

@@ -850,6 +850,8 @@
 	    if(err){
 	      alert('No profile data found locally. Internet required to load profile data. Or you are not authorized for a profile account');
 	      window.location = '#/current';
+	      console.dir(err);
+	      console.dir(data);
 	    }
 	    else{
 	      myData = data;

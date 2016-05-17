@@ -444,7 +444,7 @@
 	var btnMobileMenu = document.getElementById('btnMobileMenu');
 	var mobileMenu = document.getElementById('mobile-menu-items');
 	btnMobileMenu.addEventListener('click', function(){
-	  help.toggleClass([mobileMenu, btnMobileMenu], 'toggle-menu');
+	  mySkills.help.toggleClass([mobileMenu, btnMobileMenu], 'toggle-menu');
 	});
 	mobileMenu.addEventListener('click', function(e){
 	  help.toggleClass([mobileMenu, btnMobileMenu], 'toggle-menu');

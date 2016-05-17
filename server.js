@@ -15,6 +15,9 @@ app.use(restify.bodyParser());
 
 // Routes
 require('./api/routes/routes')(app);
+
+app.get(/\/(css|js|img|icon|small-slides)\/?.*/, restify.serveStatic({directory: './static/'}));
+
 app.get('/', function (req, res, next)
 {
   var data = fs.readFileSync(__dirname + '/index.html');
@@ -22,7 +25,6 @@ app.get('/', function (req, res, next)
   res.header('Content-Type', 'text/html');
   res.end(data.toString().replace(/host:port/g, req.header('Host')));
 });
-
 
 app.listen(config.get('PORT'), config.get('IP'), function () {
   console.log( "Listening on " + config.get('IP') + ", port " + config.get('PORT') );

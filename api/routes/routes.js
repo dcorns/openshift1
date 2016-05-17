@@ -14,9 +14,7 @@ module.exports = function(app){
   {
     res.send("{status: 'ok'}");
   });
-
-  app.get(/\/(css|js|img|icon|small-slides)\/?.*/, restify.serveStatic({directory: './static/'}));
-
+  
   app.get('/current', function (req, res, next){
     corngoose.getCollection('currentActivities', function(err, data){
       res.status(200);
@@ -50,7 +48,8 @@ module.exports = function(app){
   });
 
   app.post('/newAccount', function (req, res, next){
-    let user = {email:req.params.email.toLowerCase(), accessLevel: 'user'};
+    //default role of user for posting comments
+    let user = {email:req.params.email.toLowerCase(), roles: ['user']};
     auth.encrypt(req.params.password, function(err, data){
       if(err){
         playErr(res, err);
@@ -149,8 +148,10 @@ module.exports = function(app){
     res.contentType = 'json';
     const token = req.headers.authorization;
     var access = auth.decodeToken(token, secret);
-    //access = {resources, {email,acessLevel,tokenAddress}, expires}
-    if(resources.accessLevel !== 'user' && resources.accessLevel !== 'recruiter' ){
+    console.dir(access);
+    //access object {resources, {email,acessLevel,tokenAddress}, expires}
+    //Only member accessLevels have profiles, maybe change this to an array of roles
+    if(access.resources.accessLevel !== 'user' && access.resources.accessLevel !== 'recruiter' ){
       corngoose.dbDocFind({email:access.resources.email}, 'users', function(err, data){
         if(err) {
           playErr(res, err);

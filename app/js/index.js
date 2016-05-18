@@ -5,7 +5,7 @@
  */
 'use strict';
 //Main JS File
-const mySkills = {};
+var mySkills = {};
 mySkills.sharedObjects = require('./sharedObjects');
 var slideShow = require('./slideShow');
 var slides = require('./models/slides');
@@ -14,7 +14,7 @@ mySkills.ajax = doAjax;
 var pages = require('./build/views');
 mySkills.help = require('./helperMethods');
 var pageScripts = require('./pageScripts');
-var route = require('./viewRouter')(pages, pageScripts, mySkills);//(view, controller)
+var route = require('./viewRouter')(pages, pageScripts, mySkills);//(view, controller, app)
 
 slideShow.loadImages(slides);
 slideShow.swap();

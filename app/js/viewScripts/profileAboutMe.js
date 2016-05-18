@@ -4,12 +4,11 @@
  * Copyright © 2016 Dale Corns
  */
 'use strict';
-module.exports = function(){
-  var vm = {
-    abtm: ko.observable()
-  };
-
-  vm.abtm = myData.about;
-  ko.applyBindings(vm);
-
+module.exports = function profileAboutMe(){
+  let myProfile = JSON.parse(localStorage.getItem('myProfile'));
+  let aboutMeText = document.getElementById('aboutMeText'), aboutMeSave = document.getElementById('aboutMeSave');
+  aboutMeSave.addEventListener('click', function(){
+    myProfile.about = aboutMeText.value;
+    window.localStorage.setItem('myProfile', JSON.stringify(myProfile));
+  });
 };

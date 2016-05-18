@@ -5,10 +5,11 @@
  * Provides for individual profile data updating.
  */
 'use strict';
-var route = require('../clientRoutes')();
-var pages = require('../build/views');
-var pageScripts = require('../pageScripts');
-var viewRouter = require('../viewRouter')(pages, pageScripts);
+const route = require('../clientRoutes')();
+const pages = require('../build/views');
+//requiring pageScripts here will only produce an empty object, pass a object with the required view instead
+const viewRouter = require('../viewRouter')(pages, {profileAboutMe: require('../viewScripts/profileAboutMe')
+});
 module.exports = function myProfile(app){
   var myData;
   //check for existing profile data and load if it exists

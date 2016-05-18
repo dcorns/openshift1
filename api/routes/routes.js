@@ -149,9 +149,10 @@ module.exports = function(app){
     const token = req.headers.authorization;
     var access = auth.decodeToken(token, secret);
     console.dir(access);
-    //access object {resources, {email,acessLevel,tokenAddress}, expires}
+    //access object {resources, {email,tokenAddress}, expires}
     //Only member accessLevels have profiles, maybe change this to an array of roles
-    if(access.resources.accessLevel !== 'user' && access.resources.accessLevel !== 'recruiter' ){
+    if(access.resources){
+      console.dir(access);
       corngoose.dbDocFind({email:access.resources.email}, 'users', function(err, data){
         if(err) {
           playErr(res, err);
@@ -171,41 +172,50 @@ module.exports = function(app){
           }
           else{
             //create new data collection
-            corngoose.getCollection('profiles', function(err, data){
-              if(err){
-                playErr(res, err);
-              }
-              else{
-                var profileId = 'profile' + data.length;
-                var profile = {
-                  profileId: profileId,
-                  about: {},
-                  current: [],
-                  examples: [],
-                  repos: [],
-                  posts: [],
-                  projects: [],
-                  externalLinks: {},
-                  competencies: {technologies:[], specifics:[], tools:[]}
-                };
-                corngoose.dbDocInsert({profileId: profileId}, profile, 'profiles', function(err, pData){
-                  if(err){
-                    playErr(res, err);
-                  }
-                  else{
-                    corngoose.dbDocUpdate({email: access.resources.email}, {profileId: profileId}, 'users', function(err, data){
-                      if(err){
-                        playErr(res, err);
-                      }
-                      else{
-                        res.status(200);
-                        res.send(pData);
-                      }
-                    })
-                  }
-                });
-              }
-            });
+            if(data[0].roles.indexOf('member') > -1){
+              console.log('Is A Member!');
+              corngoose.getCollection('profiles', function(err, data){
+                if(err){
+                  playErr(res, err);
+                }
+                else{
+                  var profileId = 'profile' + data.length;
+                  var profile = {
+                    profileId: profileId,
+                    about: {},
+                    current: [],
+                    examples: [],
+                    repos: [],
+                    posts: [],
+                    projects: [],
+                    externalLinks: {},
+                    competencies: {technologies:[], specifics:[], tools:[]}
+                  };
+                  corngoose.dbDocInsert({profileId: profileId}, profile, 'profiles', function(err, pData){
+                    if(err){
+                      playErr(res, err);
+                    }
+                    else{
+                      corngoose.dbDocUpdate({email: access.resources.email}, {profileId: profileId}, 'users', function(err, data){
+                        if(err){
+                          playErr(res, err);
+                        }
+                        else{
+                          res.status(200);
+                          res.send(pData);
+                        }
+                      })
+                    }
+                  });
+                }
+              });
+            }
+            else{
+              console.log('Not a member');
+              res.status(401);
+              res.send({});
+            }
+            
           }
         }
       });

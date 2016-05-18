@@ -70,7 +70,7 @@ btnMobileMenu.addEventListener('click', function(){
   mySkills.help.toggleClass([mobileMenu, btnMobileMenu], 'toggle-menu');
 });
 mobileMenu.addEventListener('click', function(e){
-  help.toggleClass([mobileMenu, btnMobileMenu], 'toggle-menu');
+  mySkills.help.toggleClass([mobileMenu, btnMobileMenu], 'toggle-menu');
 });
 
 function winready(f){

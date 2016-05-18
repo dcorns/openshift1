@@ -150,15 +150,13 @@ module.exports = function(app){
     var access = auth.decodeToken(token, secret);
     console.dir(access);
     //access object {resources, {email,tokenAddress}, expires}
-    //Only member accessLevels have profiles, maybe change this to an array of roles
-    if(access.resources){
-      console.dir(access);
+    if(access.resources){//valid token
       corngoose.dbDocFind({email:access.resources.email}, 'users', function(err, data){
         if(err) {
           playErr(res, err);
         }
         else{
-          //check for profile data
+          //if there is a profile ID, then the user has the member role and the profile has already been added
           if('profileId' in data[0]){
             corngoose.dbDocFind({profileId: data[0].profileId}, 'profiles', function(err, data){
               if(err){
@@ -171,9 +169,8 @@ module.exports = function(app){
             })
           }
           else{
-            //create new data collection
+            //if the user has the member role and no profile already, create new profile
             if(data[0].roles.indexOf('member') > -1){
-              console.log('Is A Member!');
               corngoose.getCollection('profiles', function(err, data){
                 if(err){
                   playErr(res, err);
@@ -211,7 +208,7 @@ module.exports = function(app){
               });
             }
             else{
-              console.log('Not a member');
+              //User has no member role
               res.status(401);
               res.send({});
             }
@@ -220,7 +217,7 @@ module.exports = function(app){
         }
       });
     }
-    else{
+    else{//token is not valid
       res.status(401);
       res.send({});
     }

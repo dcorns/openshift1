@@ -14,6 +14,10 @@ var concatCss = require('gulp-concat-css');
 var autoprefixer = require('gulp-autoprefixer');
 var webpack = require('gulp-webpack');
 
+gulp.task('grunt', function(){
+  childProcess('grunt');
+});
+
 gulp.task('webpack', function(){
   return gulp.src('app/js/**/*.js')
     .pipe(webpack({
@@ -55,6 +59,7 @@ gulp.task('watcher', function(){
       .pipe(gulp.dest(__dirname));
   });
   gulp.watch('app/styles/**/*',['build-css']);
+  gulp.watch('app/views/**/*', ['grunt', 'webpack']);
 });
 
 gulp.task('ship', function(){

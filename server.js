@@ -1,3 +1,4 @@
+'use strict';
 var cc          = require('config-multipaas'),
     restify     = require('restify'),
     fs          = require('fs'),
@@ -15,8 +16,9 @@ app.use(restify.bodyParser());
 
 // Routes
 require('./api/routes/routes')(app);
-
-app.get(/\/(css|js|img|icon|small-slides)\/?.*/, restify.serveStatic({directory: './static/'}));
+console.log(process.argv);
+let webRoot = process.argv[2] || './static/';
+app.get(/\/(css|js|img|icon|small-slides)\/?.*/, restify.serveStatic({directory: webRoot}));
 
 app.get('/', function (req, res, next)
 {

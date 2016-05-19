@@ -36,7 +36,6 @@ module.exports = function myProfile(app){
   
   btnAbout.addEventListener('click', function(){
     viewRouter('#/profileAboutMe', 'profile-content');
-    aboutMeControl();
   });
   btnCurrent.addEventListener('click', function(){
     viewRouter('#/profileCurrent', 'profile-content');
@@ -62,8 +61,5 @@ module.exports = function myProfile(app){
   
   function getById(btnId){
     return document.getElementById(btnId);
-  }
-  function aboutMeControl(){
-    alert('aboutMe');
   }
 };

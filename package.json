@@ -1,7 +1,7 @@
 {
-  "name": "OpenShift-Nodejs-Cartridge",
-  "version": "5.4.1",
-  "description": "Node.js Cartridge for OpenShift",
+  "name": "dalecorns.com",
+  "version": "0.0.4",
+  "description": "Webapp for showcasing and referencing skills",
   "keywords": [
     "OpenShift",
     "Node.js",
@@ -9,14 +9,14 @@
     "openshift"
   ],
   "author": {
-    "name": "OpenShift",
-    "email": "ryanj@redhat.com",
-    "url": "http://openshift.redhat.com/"
+    "name": "Dale Corns",
+    "email": "codefellow@gmail.com",
+    "url": "http://dalecorns.com/"
   },
-  "homepage": "http://openshift.redhat.com/",
+  "homepage": "http://dalcorns.com/",
   "repository": {
     "type": "git",
-    "url": "https://gitub.com/openshift/nodejs-custom-version-openshift.git"
+    "url": "https://gitub.com/dcorns/openshift1.git"
   },
   "engines": {
     "node": ">= 5.4.1",

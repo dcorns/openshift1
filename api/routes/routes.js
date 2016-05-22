@@ -6,7 +6,8 @@
 'use strict';
 var restify     = require('restify'),
   corngoose   = require('corngoose'),
-  auth = require('cornorize');
+  auth = require('cornorize'),
+  dataScript = require('../dataScript');
 const secret = process.env.DRCAUTH;
 
 module.exports = function(app){
@@ -55,6 +56,7 @@ module.exports = function(app){
         playErr(res, err);
       }else{
         user.hash = data;
+        //Add user email if it does not already exist, the users hash, and the default user role
         corngoose.dbDocInsert({email:req.params.email.toLowerCase()}, user, 'users', function(err, data){
           if(err){
             playErr(res, err);
@@ -179,7 +181,7 @@ module.exports = function(app){
                   var profileId = 'profile' + data.length;
                   var profile = {
                     profileId: profileId,
-                    about: {},
+                    about: '',
                     current: [],
                     examples: [],
                     repos: [],
@@ -222,6 +224,22 @@ module.exports = function(app){
       res.send({});
     }
 
+  });
+
+  app.post('/saveProfile', function(req, res, next){
+    console.dir(req.params);
+    dataScript.saveProfile(req.header('Authorization'), req.params, function(err, data){
+      if(err) playErr(res, err);
+      else{
+        if(data.ok === 1){
+          res.status(201); //do-ajax expects a 201 or it will interpret status as an error
+          res.send(data);
+        }
+        else{
+          playErr(res, new Error('There was a problem saving profile'));
+        }
+      }
+    });
   });
 };
 

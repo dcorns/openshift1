@@ -23,6 +23,8 @@ app.get(/\/(css|js|img|icon|small-slides)\/?.*/, restify.serveStatic({directory:
 app.get('/', function (req, res, next)
 {
   var data = fs.readFileSync(__dirname + '/index.html');
+  res.setHeader('Content-Security-Policy', "script-src 'self';" +
+    "style-src 'self'");
   res.status(200);
   res.header('Content-Type', 'text/html');
   res.end(data.toString().replace(/host:port/g, req.header('Host')));

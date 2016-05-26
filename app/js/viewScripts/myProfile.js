@@ -7,8 +7,10 @@
 'use strict';
 const route = require('../clientRoutes')();
 const pages = require('../build/views');
-//requiring pageScripts here will only produce an empty object, pass a object with the required view instead
-const viewRouter = require('../viewRouter')(pages, {profileAboutMe: require('../viewScripts/profileAboutMe')
+//requiring pageScripts here will only produce an empty object, pass an object with the required views instead
+const viewRouter = require('../viewRouter')(pages, {
+  profileAboutMe: require('../viewScripts/profileAboutMe'),
+  profileCurrent: require('../viewScripts/profileCurrent')
 });
 module.exports = function myProfile(app){
   var myData;

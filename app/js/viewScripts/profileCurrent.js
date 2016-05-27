@@ -15,12 +15,12 @@ module.exports = function profileCurrent(){
     configureEl(els[ii]);
   }
 };
-
+//write code as required for each node in profileCurrent.html
 const configureEl = (el) => {
   switch (el.id){
     case 'currentItemsList':
       if(current && current.length > 0){
-        addTableRows(el, current);
+        prepTable(el, current);
       }
       break;
     case 'startDate':
@@ -30,6 +30,7 @@ const configureEl = (el) => {
     case 'endDate':
       break;
     case 'addItem':
+      addClickEvent(el, addTableData);
       break;
     case 'updateItem':
       break;
@@ -41,7 +42,7 @@ const configureEl = (el) => {
 }
 
 //Take an array of data objects and create table headers based on keys and data table rows based on values and insert data into rows, then append to tblNode
-let addTableRows = (tblNode, tblData) => {
+let prepTable = (tblNode, tblData) => {
   const len = tblData.length;
   //create headers based on property names
   let tblHeader = document.createElement('tr');
@@ -55,13 +56,17 @@ let addTableRows = (tblNode, tblData) => {
     }
   }
   tblNode.appendChild(tblHeader);
-  for(var i2 = 0; i2 < len; i2++){
-    let tr = document.createElement('tr');
-    for(var i3 = 0; i3 < dataKeys.length; i3++){
-      let td = document.createElement('td');
-      td.textContent = tblData[i2][dataKeys[i3]];
-      tr.appendChild(td);
+    for(var i2 = 0; i2 < len; i2++){
+      addTableData(tblData[i2], dataKeys, tblNode);
     }
-    tblNode.appendChild(tr);
+}
+
+let addTableData = (obj, dataKeys, tblNode) => {
+  let tr = document.createElement('tr');
+  for(var i3 = 0; i3 < dataKeys.length; i3++){
+    let td = document.createElement('td');
+    td.textContent = obj[dataKeys[i3]];
+    tr.appendChild(td);
   }
+  tblNode.appendChild(tr);
 }

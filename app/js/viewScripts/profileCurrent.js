@@ -8,15 +8,15 @@ const doAjax = require('do-ajax');
 let current;
 module.exports = function profileCurrent(){
   let myProfile = JSON.parse(localStorage.getItem('myProfile'));
-  //current = myProfile.current;
-  current = [{start: new Date(), activity: 'Test Activity', end: new Date()}];
+  current = myProfile.current;
+  //current = [{start: new Date(), activity: 'Test Activity', end: new Date()}];
   let els = document.querySelectorAll('#profile-content > [id]');
   for (var ii = 0; ii < els.length; ii++){
     configureEl(els[ii]);
   }
 };
 //Declare all functions scoped Variables
-let tbl, startDate, activity, endDate;
+let tbl, newActivity = {start:'', activity: '', end: ''};
 //initialize functionality for dom nodes
 const configureEl = (el) => {
   switch (el.id){
@@ -27,15 +27,33 @@ const configureEl = (el) => {
       }
       break;
     case 'startDate':
-      startDate = el;
+      el.addEventListener('change', function(e){
+        newActivity.start = e.target.value;
+        console.log(newActivity.start);
+      });
       break;
     case 'activity':
-      activity = el;
+      el.addEventListener('keyup', function(e){
+        newActivity.activity = e.target.value;
+        console.log(newActivity.activity);
+      });
       break;
     case 'endDate':
-      endDate = el;
+      el.addEventListener('change', function(e){
+        newActivity.end = e.target.value;
+        console.log(newActivity.end);
+      });
       break;
     case 'addItem':
+      el.addEventListener('click', function(){
+        current.push(newActivity);
+        if(current.length < 2){
+          prepTable(tbl, current);
+        }
+        else{
+          addTableData(newActivity, ['start', 'activity', 'end'], tbl);
+        }
+      });
       break;
     case 'updateItem':
       break;

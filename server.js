@@ -33,9 +33,12 @@ app.get('/', function (req, res, next)
   res.end(data.toString().replace(/host:port/g, req.header('Host')));
 });
 
+app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8000);
+app.set('ip', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
+
 // app.listen(config.get('PORT'), config.get('IP'), function () {
 //   console.log( "Listening on " + config.get('IP') + ", port " + config.get('PORT') );
 // });
-app.listen(port, ip, function () {
+app.listen(app.get(port), app.get(ip), function () {
   console.log( "Listening on ", ip, ", port ", port );
 });

@@ -7,8 +7,8 @@ var cc          = require('config-multipaas'),
 var config      = cc(),
     app         = restify.createServer();
 
-var port = process.env.PORT || 8000;
-var ip = process.env.BIND_IP || 'localhost';
+var port = process.env.OPENSHIFT_NODEJ_PORT || 8000;
+var ip = process.env.OPENSHIFT_NODEJS_IP || 'localhost';
 console.log(port);
 corngoose.startDB('drc');
 

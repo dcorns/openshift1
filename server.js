@@ -38,7 +38,7 @@ app.set('ip', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
 
 // app.listen(config.get('PORT'), config.get('IP'), function () {
 //   console.log( "Listening on " + config.get('IP') + ", port " + config.get('PORT') );
-// });
+//   });
 app.listen(app.get(port), app.get(ip), function () {
   console.log( "Listening on ", ip, ", port ", port );
 });

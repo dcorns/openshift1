@@ -66,6 +66,7 @@ const configureEl = (el) => {
 
 //Take an array of data objects and create table headers based on keys and data table rows based on values and insert data into rows, then append to tblNode
 let prepTable = (tblNode, tblData) => {
+  console.time('prepTable');
   const len = tblData.length;
   //create headers based on property names
   let tblHeader = document.createElement('tr');
@@ -80,10 +81,12 @@ let prepTable = (tblNode, tblData) => {
     for(var i2 = 0; i2 < len; i2++){
       addTableData(tblData[i2], dataKeys, tblNode);
     }
+  console.timeEnd('prepTable');
 }
 
 //ads a table row to tblNode containing obj data who's keys match the provided dataKeys
 let addTableData = (obj, dataKeys, tblNode) => {
+  console.time('addTableData');
   let tr = document.createElement('tr');
   for(var i3 = 0; i3 < dataKeys.length; i3++){
     let td = document.createElement('td');
@@ -91,6 +94,7 @@ let addTableData = (obj, dataKeys, tblNode) => {
     tr.appendChild(td);
   }
   tblNode.appendChild(tr);
+  console.timeEnd('addTableData');
 }
 
 //Capitalize the first letter of headerText and add th node with the headerText to rowNode

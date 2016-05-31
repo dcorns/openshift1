@@ -12,7 +12,8 @@ var childProcess = require('child_process').spawn;
 var cssnext = require('gulp-cssnext');
 var concatCss = require('gulp-concat-css');
 var autoprefixer = require('gulp-autoprefixer');
-var webpack = require('gulp-webpack');
+var gulpWebpack = require('gulp-webpack');
+var webpack = require('webpack');
 var uglify = require('gulp-uglify');
 
 gulp.task('grunt', function(){
@@ -21,7 +22,7 @@ gulp.task('grunt', function(){
 
 gulp.task('webpack', function(){
   return gulp.src('app/js/**/*.js')
-    .pipe(webpack({
+    .pipe(gulpWebpack({
       output:{
         filename: 'bundle.js'
       }
@@ -61,10 +62,6 @@ gulp.task('watcher', function(){
   });
   gulp.watch('app/styles/**/*',['build-css']);
   gulp.watch('app/views/**/*', ['grunt', 'webpack']);
-});
-
-gulp.task('compress', function(){
-  
 });
 
 gulp.task('ship', function(){

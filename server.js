@@ -33,3 +33,6 @@ app.get('/', function (req, res, next)
 app.listen(config.get('PORT'), config.get('IP'), function () {
   console.log( "Listening on " + config.get('IP') + ", port " + config.get('PORT') );
 });
+
+//Add this line for testing with superTest
+module.exports = app;

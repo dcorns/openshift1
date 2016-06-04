@@ -14,6 +14,9 @@ app.use(restify.CORS());
 app.use(restify.fullResponse());
 app.use(restify.bodyParser());
 
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+
 // Routes
 require('./api/routes/routes')(app);
 console.log(process.argv);
@@ -30,8 +33,8 @@ app.get('/', function (req, res, next)
   res.end(data.toString().replace(/host:port/g, req.header('Host')));
 });
 
-app.listen(config.get('PORT'), config.get('IP'), function () {
-  console.log( "Listening on " + config.get('IP') + ", port " + config.get('PORT') );
+app.listen(server_port, server_ip_address, function () {
+  console.log( "Listening on " + server_ip_address + ", port " + server_port);
 });
 
 //Add this line for testing with superTest

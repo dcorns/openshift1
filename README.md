@@ -9,7 +9,7 @@ gulp build-css:prod--- trans-pile css4 into css3
 gulp webpack:prod--- combine JavaScript modules into bundle.js
 
 ### Client Routing
-Client side routing is controlled by intercepting the default behavior for anchor tags using the firstDo function in index.js. Using window.history and local storage, refresh, prev, and back buttons are properly mapped to the correct views. The loadView function in viewRouter is used to change views and load the views corresponding script if it has one. View scripts are registered in pageScript.js.
+Client side routing is controlled by intercepting the default behavior for anchor tags using the firstDo function in index.js. Using window.history and local storage, refresh, prev, and back buttons are properly mapped to the correct views. The loadView function in viewRouter is used to change views and load the views corresponding script if it has one. View scripts are registered in pageScript.js.(unless they are nested)
 
 ### Shared Objects
 Properties and methods that are required by multiple views are provied by sharedObjects.js and helperMethods.js. The methods and objects available in these files are passed around via the mySkills object created in index.js.
@@ -66,3 +66,24 @@ Then push your updates to OpenShift
     git push
 
 Additional updates can be made via the same `git add`, `git commit`, and `git push` workflow.
+
+###Adding Firebase
+Create a firebase account and application<br/>
+Go to application settings, permissions, service account<br/>
+Create Service Account Using the following settings:<br/>
+Furnish new key, Key type JSON<br/>
+Give the account a name and leave everything else at defaults, then click **CREATE**<br/>
+A json file with credentials will be downloaded to the local machine
+####Setup access to firebase in node
+Edit ~/.bash_profile:<br/>
+export FIREBASE='*contents of json file*'<br/>
+export FIREBASE_DB='*appName*.firebaseio.com'<br/>
+Make available in app:
+`var firebaseCredentials = JSON.parse(process.env.FIREBASE);`
+<br/>
+`require('firebase')`<br/>
+see server.js for remaining details
+#####Add evs to openshift
+rhc env set FIREBASE='*contents of json file*' -a *openshiftAppName*<br/>
+rhc env set FIREBASE_DB='*appName*.firebaseio.com' -a *openshiftAppName*<br/>
+check success: rhc env list -a *openshiftAppName*

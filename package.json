@@ -27,6 +27,7 @@
     "corngoose": "^1.1.0",
     "cornorize": "^1.0.2",
     "do-ajax": "^1.0.0",
+    "firebase": "^3.0.4",
     "mongodb": "^2.1.4",
     "restify": "^2.8.3"
   },

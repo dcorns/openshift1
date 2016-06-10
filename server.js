@@ -2,12 +2,13 @@
 var cc          = require('config-multipaas'),
     restify     = require('restify'),
     fs          = require('fs'),
-    corngoose   = require('corngoose');
+ //   corngoose   = require('corngoose'),
+    firebase = require('firebase');
 
 var config      = cc(),
     app         = restify.createServer();
 
-corngoose.startDB('drc');
+//corngoose.startDB('drc');
 
 app.use(restify.queryParser());
 app.use(restify.CORS());
@@ -16,6 +17,15 @@ app.use(restify.bodyParser());
 
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var firebaseCredentials = JSON.parse(process.env.FIREBASE);
+firebase.initializeApp({
+  serviceAccount:{
+    projectID: firebaseCredentials.project_id,
+  clientEmail: firebaseCredentials.client_email,
+  privateKey: firebaseCredentials.private_key
+  },
+  databaseURL: process.env.FIREBASE_DB
+});
 
 // Routes
 require('./api/routes/routes')(app);

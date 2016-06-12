@@ -8,7 +8,7 @@ var restify     = require('restify'),
   corngoose   = require('corngoose'),
   auth = require('cornorize'),
   dataScript = require('../dataScript');
-const secret = process.env.DRCAUTH;
+var secret = process.env.DRCAUTH;
 
 module.exports = function(app){
   app.get('/status', function (req, res, next)

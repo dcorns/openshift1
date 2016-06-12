@@ -50,7 +50,7 @@ module.exports = function(app){
 
   app.post('/newAccount', function (req, res, next){
     //default role of user for posting comments
-    let user = {email:req.params.email.toLowerCase(), roles: ['user']};
+    var user = {email:req.params.email.toLowerCase(), roles: ['user']};
     auth.encrypt(req.params.password, function(err, data){
       if(err){
         playErr(res, err);
@@ -62,7 +62,7 @@ module.exports = function(app){
             playErr(res, err);
           }else{
             user.tokenAddress = req.connection.remoteAddress;
-            let token;
+            var token;
             try{
               token = auth.makeToken(user, 10, process.env.DRCAUTH);
               res.status(201);
@@ -84,7 +84,7 @@ module.exports = function(app){
 
   app.post('/login', function (req, res, next){
     res.contentType = 'json';
-    let email, password;
+    var email, password;
     try{
       email = req.params.email.toLowerCase(); password = req.params.password;
     }
@@ -100,7 +100,7 @@ module.exports = function(app){
         res.send(err);
       }
       else{
-        let user = {email: data[0].email, accessLevel: data[0].accessLevel, tokenAddress: req.connection.remoteAddress};
+        var user = {email: data[0].email, accessLevel: data[0].accessLevel, tokenAddress: req.connection.remoteAddress};
         auth.authenticate({password: password}, {passHash: data[0].hash}, function(err, data){
           if(err){
             console.log('error in login authenticate');
@@ -108,7 +108,7 @@ module.exports = function(app){
             res.status(401);
             res.send(err);
           }
-          let token;
+          var token;
           try{
             token = auth.makeToken(user, 10, process.env.DRCAUTH);
             res.status(201);
@@ -127,7 +127,7 @@ module.exports = function(app){
 
   app.post('/tokenAccess', function(req, res, next){
     res.contentType = 'json';
-    let DRCToken = req.params.DRCToken, userAccess, remoteAddress = req.connection.remoteAddress;
+    var DRCToken = req.params.DRCToken, userAccess, remoteAddress = req.connection.remoteAddress;
     userAccess = auth.decodeToken(DRCToken, process.env.DRCAUTH);
     if(userAccess.expires){//token is valid
       if(userAccess.resources.tokenAddress === remoteAddress){

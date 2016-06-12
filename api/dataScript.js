@@ -8,7 +8,7 @@ const cg = require('corngoose');
 const auth = require('cornorize');
 module.exports = {
   saveProfile: function(token, data, cb) {
-    let aboutMe = {mainHeader: data.aboutMeHeader, subText: data.aboutMe};
+    var aboutMe = {mainHeader: data.aboutMeHeader, subText: data.aboutMe};
     isValidProfile(token, data.profileId, function(result) {
       if (result) {
         cg.dbDocFind({profileId: data.profileId}, 'profiles', function (err, data) {

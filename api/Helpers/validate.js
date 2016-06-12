@@ -8,7 +8,7 @@ module.exports = function validate(){
   return {
     email: function(txt){
 
-      const vd = /@/;
+      var vd = /@/;
     }
   };
 }();

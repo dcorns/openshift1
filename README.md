@@ -84,6 +84,7 @@ Make available in app:
 `require('firebase')`<br/>
 see server.js for remaining details
 #####Add evs to openshift
+Because the custom environment variables on openshift are limited to 512 characters a method for breaking the firebase secret up into multiple variables must be employed.
 rhc env set FIREBASE='*contents of json file*' -a *openshiftAppName*<br/>
 rhc env set FIREBASE_DB='*appName*.firebaseio.com' -a *openshiftAppName*<br/>
 check success: rhc env list -a *openshiftAppName*

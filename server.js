@@ -9,20 +9,23 @@ var config      = cc(),
     app         = restify.createServer();
 
 //corngoose.startDB('drc');
-
 app.use(restify.queryParser());
 app.use(restify.CORS());
 app.use(restify.fullResponse());
 app.use(restify.bodyParser());
-
+// var firebaseCredentials = JSON.parse(process.env.FIREBASE);
+// var uf = require('./api/Helpers/usefulFunctions');
+// var x = uf.breakUpString(firebaseCredentials.private_key, 500);
+// console.log('x:',x);
+// console.log(x.length);
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var firebaseCredentials = JSON.parse(process.env.FIREBASE);
+var privateKey = process.env.FIREBASE_KEY1 + process.env.FIREBASE_KEY2 + process.env.FIREBASE_KEY3 + process.env.FIREBASE_KEY4;
 firebase.initializeApp({
   serviceAccount:{
-    projectID: firebaseCredentials.project_id,
-  clientEmail: firebaseCredentials.client_email,
-  privateKey: firebaseCredentials.private_key
+    projectID: process.env.FIREBASE_PROJECT_ID,
+  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+  privateKey: privateKey
   },
   databaseURL: process.env.FIREBASE_DB
 });

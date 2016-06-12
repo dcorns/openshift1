@@ -24,8 +24,8 @@ var privateKey = process.env.FIREBASE_KEY1 + process.env.FIREBASE_KEY2 + process
 firebase.initializeApp({
   serviceAccount:{
     projectID: process.env.FIREBASE_PROJECT_ID,
-  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  privateKey: privateKey
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: privateKey
   },
   databaseURL: process.env.FIREBASE_DB
 });

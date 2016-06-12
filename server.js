@@ -33,7 +33,7 @@ firebase.initializeApp({
 // Routes
 require('./api/routes/routes')(app);
 console.log(process.argv);
-let webRoot = process.argv[2] || './static/';
+var webRoot = process.argv[2] || './static/';
 app.get(/\/(css|js|img|icon|small-slides)\/?.*/, restify.serveStatic({directory: webRoot}));
 
 app.get('/', function (req, res, next)

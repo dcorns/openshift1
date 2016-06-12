@@ -6,6 +6,7 @@
 'use strict';
 module.exports = (function usefulFunctions(){
   return{
+    //Originally created to break up the firebase private key since openshift custom environment variables size limits are too small to support it.
     breakUpString: function breakUpString(str, numberOfChars, aryIn){
       if(!(typeof str === 'string')) throw new TypeError('The first argument must be a string');
       if((typeof numberOfChars !== 'number') || isNaN(numberOfChars)) throw new TypeError('The second argument must be an integer');

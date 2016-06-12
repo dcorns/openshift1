@@ -13,11 +13,7 @@ app.use(restify.queryParser());
 app.use(restify.CORS());
 app.use(restify.fullResponse());
 app.use(restify.bodyParser());
-// var firebaseCredentials = JSON.parse(process.env.FIREBASE);
-// var uf = require('./api/Helpers/usefulFunctions');
-// var x = uf.breakUpString(firebaseCredentials.private_key, 500);
-// console.log('x:',x);
-// console.log(x.length);
+
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var privateKey = process.env.FIREBASE_KEY1 + process.env.FIREBASE_KEY2 + process.env.FIREBASE_KEY3 + process.env.FIREBASE_KEY4;

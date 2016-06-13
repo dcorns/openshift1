@@ -16,7 +16,7 @@ app.use(restify.bodyParser());
 
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var privateKey = process.env.FIREBASE_KEY1 + process.env.FIREBASE_KEY2 + process.env.FIREBASE_KEY3 + process.env.FIREBASE_KEY4;
+var privateKey = process.env.FIREBASE_KEY + process.env.FIREBASE_KEY2 + process.env.FIREBASE_KEY3 + process.env.FIREBASE_KEY4;
 firebase.initializeApp({
   serviceAccount:{
     projectID: process.env.FIREBASE_PROJECT_ID,
